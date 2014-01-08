@@ -1,8 +1,12 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
+import sys
 import os
 import glob
 import time
+import sqlite3 as lite
+import re
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -21,7 +25,8 @@ def read_temp_raw(file):
     f.close()
     return lines
 
-def read_temp():
+def read_temps():
+    temps = {}
     for file in device_files:
         lines = read_temp_raw(file)
         while lines[0].strip()[-3:] != 'YES':
@@ -32,8 +37,41 @@ def read_temp():
             temp_string = lines[1][equals_pos+2:]
             temp_c = float(temp_string) / 1000.0
             temp_f = temp_c * 9.0 / 5.0 + 32.0
-            print file, ':', temp_c, 'C,', temp_f, 'F'
 
-while True:
-    read_temp()
-    time.sleep(1)
+            # Get the unique name of the device.
+            device = file
+            device = re.sub('/sys/bus/w1/devices/', '', device)
+            device = re.sub('/w1_slave', '', device)
+
+            # Add the measurement to the temps array.
+            temps[device] = {'C': temp_c, 'F': temp_f}
+    return temps
+
+try:
+    con = lite.connect('/home/pi/atmospi/log.db')
+    db = con.cursor()
+
+    # Get the current timestamp as an integer.
+    timestamp = int(time.time())
+
+    # Gather the temperature readings from all devices.
+    temps = read_temps()
+
+    # Iterate through the devices.
+    for device, data in temps.items():
+
+        # Record the temperatures to the database.
+        db.execute("INSERT INTO Temperature VALUES('" + device + "', " + str(timestamp) + ", " + str(data['C']) + ", " + str(data['F']) + ")")
+
+    # Commit the changes to the database.
+    con.commit()
+
+except lite.Error, e:
+    if con:
+        con.rollback()
+    print "Error %s:" % e.args[0]
+    sys.exit(1)
+
+finally:
+    if con:
+        con.close()
