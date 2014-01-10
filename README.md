@@ -42,7 +42,7 @@ Setup
 4. Set up measure.py to run on a cron job as root.
 
     sudo crontab -e
-    */5 * * * * /home/pi/atmospi/measure.py
+    */5 * * * * /home/pi/atmospi/measure.py >/dev/null 2>&1
 
 5. Add the Apache virtual host (provided) and restart Apache.
 
