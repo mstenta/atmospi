@@ -3,42 +3,74 @@
 
 import time
 import sqlite3 as lite
+import json
 from flask import Flask
 from flask import render_template
+
+# Database select query helper.
+def db_select(query, args=()):
+
+    # Try connecting and executing the query.
+    try:
+
+        # Define the database file location.
+        db_file = '/home/pi/atmospi/log.db'
+
+        # Open the database connection.
+        con = lite.connect(db_file)
+        db = con.cursor()
+
+        # Execute the select.
+        db.execute(query, args)
+
+        # Fetch all the resulting rows.
+        rows = db.fetchall()
+
+        # Return the rows.
+        return rows
+
+    # If there was an error, roll back and print it.
+    except lite.Error, e:
+        if con:
+            con.rollback()
+        return 'Error selecting from the database file. ' + e
+
+    # At the end, close the database connection.
+    finally:
+        if con:
+            con.close()
 
 # Create a new Flask app.
 app = Flask(__name__)
 
-# Define the webroot index route.
+# Define the index router item.
 @app.route('/')
 def index():
-    try:
-        con = lite.connect('/home/pi/atmospi/log.db')
-        db = con.cursor()
 
-        # Get the current timestamp as an integer.
-        timestamp = int(time.time())
+    # Return the rendered index.
+    return render_template('index.html')
 
-        # Calculate the timestamp 72 hours ago.
-        past_timestamp = int(timestamp - (72 * 60 * 60))
+# Define the device data router item.
+@app.route('/data/device/<id>')
+def device_data(id):
 
-        # Select temperature readings.
-        db.execute('SELECT * FROM Temperature WHERE Timestamp > ? ORDER BY Timestamp ASC', (past_timestamp,))
+    # Select temperature readings for the specific device.
+    rows = db_select('SELECT * FROM Temperature WHERE Device = ? ORDER BY Timestamp ASC', (id,))
 
-        # Fetch all the results.
-        rows = db.fetchall()
+    # Build a series of timestamps and Fahrenheit readings.
+    data = []
+    for row in rows:
 
-        # Return the rendered index.
-        return render_template('index.html', data=rows, timestamp=past_timestamp)
+        # Get the timestamp (in milliseconds).
+        timestamp = int(str(row[1]) + '000')
 
-    except lite.Error, e:
-        if con:
-            con.rollback()
-        return 'Error connecting to the database file.'
+        # Get the temperature.
+        temperature = row[3]
 
-    finally:
-        if con:
-            con.close()
+        # Append the data point.
+        data.append([timestamp, temperature])
+
+    return json.dumps(data)
 
 # Run it!
 if __name__ == '__main__':
