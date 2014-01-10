@@ -2,8 +2,8 @@
 <head>
 <head>
   <title>Atmospi</title>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-  <script src="//code.highcharts.com/highcharts.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script type="text/javascript" src="//code.highcharts.com/stock/highstock.js"></script>
 </head>
 <body>
   <h1>Atmospi</h1>
@@ -32,11 +32,15 @@
 	    month: '%b \'%y',
 	    year: '%Y'
           },
+          min: new Date().getTime() - 7 * 24 * 60 * 60 * 1000,  // Default visible range of 1 week.
         },
         yAxis: {
           title: {
             text: 'Temperature (°F)'
           }
+        },
+        scrollbar: {
+          enabled: true
         },
         tooltip: {
           formatter: function() {
