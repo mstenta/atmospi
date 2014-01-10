@@ -12,6 +12,15 @@ Dependencies
 
     sudo apt-get install sqlite3
 
+**Apache with mod_wsgi**
+
+    sudo apt-get install libapache2-mod-wsgi
+
+**Flask**
+
+    sudo apt-get install python-pip
+    sudo pip install Flask
+
 Setup
 -----
 
@@ -30,7 +39,12 @@ Setup
     CREATE TABLE Temperature(Device TEXT, Timestamp INT, C REAL, F REAL);
     .exit
 
-4. Set it up to run on a cron job as root.
+4. Set up measure.py to run on a cron job as root.
 
     sudo crontab -e
     */5 * * * * /home/pi/atmospi/measure.py
+
+5. Add the Apache virtual host (provided) and restart Apache.
+
+    sudo ln -s /home/pi/atmospi/atmospi.vhost /etc/apache2/sites-enabled/atmospi
+    sudo apache2ctl restart
