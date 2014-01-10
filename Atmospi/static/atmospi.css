@@ -1,0 +1,16 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+html, body {
+  height: 100%;
+}
+body {
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+}
+#graph {
+  margin: auto;
+  height: 80%;
+  width: 80%;
+}
+#footer {
+  font-size: small;
+}
