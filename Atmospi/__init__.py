@@ -50,6 +50,21 @@ def index():
     # Return the rendered index.
     return render_template('index.html')
 
+# Define the devices router item.
+@app.route('/data/devices')
+def devices():
+
+    # Select all available device ids.
+    rows = db_select('SELECT Device FROM Temperature GROUP BY Device');
+
+    # Build an array of device ids.
+    devices = []
+    for row in rows:
+        devices.append(str(row[0]))
+
+    # Return as a string.
+    return json.dumps(devices)
+
 # Define the device data router item.
 @app.route('/data/device/<id>')
 def device_data(id):
