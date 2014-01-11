@@ -1,5 +1,8 @@
 $(function() {
 
+  // Get the current time.
+  var now = new Date().getTime();
+
   // Use local timezone.
   Highcharts.setOptions({
     global: {
@@ -29,12 +32,40 @@ $(function() {
         month: '%b \'%y',
         year: '%Y'
       },
-      min: new Date().getTime() - 7 * 24 * 60 * 60 * 1000,  // Default visible range of 1 week.
+      min: now - 24 * 60 * 60 * 1000,  // Default visible range of 1 day.
+      max: now
     },
     yAxis: {
       title: {
         text: 'Temperature (°F)'
       }
+    },
+    rangeSelector: {
+      enabled: true,
+      buttons: [{
+	      type: 'day',
+	      count: 1,
+	      text: '1d'
+      }, {
+	      type: 'week',
+	      count: 1,
+	      text: '1w'
+      }, {
+	      type: 'month',
+	      count: 1,
+	      text: '1m'
+      }, {
+	      type: 'month',
+	      count: 6,
+	      text: '6m'
+      }, {
+	      type: 'year',
+	      count: 1,
+	      text: '1y'
+      }, {
+	      type: 'all',
+	      text: 'all'
+      }]
     },
     scrollbar: {
       enabled: true
