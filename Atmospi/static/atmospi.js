@@ -1,5 +1,12 @@
 $(function() {
 
+  // Use local timezone.
+  Highcharts.setOptions({
+    global: {
+      useUTC: false
+    }
+  });
+
   // Set up the Highcharts graph.
   var chart = new Highcharts.Chart({
     chart: {
