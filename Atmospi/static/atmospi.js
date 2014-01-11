@@ -93,11 +93,17 @@ $(function() {
     },
   });
 
+  // Turn the loading text on.
+  chart.showLoading();
+
   // Load a list of devices.
   $.getJSON('data/devices', function(devices) {
 
     // Iterate through the devices...
     $.each(devices, function(index, device) {
+
+      // Turn the loading text on.
+      chart.showLoading();
 
       // Load the device data.
       $.getJSON('data/device/' + device, function(data) {
@@ -111,6 +117,9 @@ $(function() {
 
         // Redraw.
         chart.redraw();
+
+        // Hide the loading text.
+        chart.hideLoading();
       });
     });
   });
