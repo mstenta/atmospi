@@ -1,7 +1,13 @@
 atmospi
 =======
 
-Scripts for logging temperature and humidity using a Raspberry Pi with DS18B20 and DHT22 sensor(s).
+Atmospheric monitoring app for logging and graphing temperature(s) over time using a Raspberry Pi and DS18B20 sensor(s).
+
+This project has two main pieces: 1) a simple Python script that runs on cron to gather data from attached sensors, and 2) a Flask web application for viewing the data in graph form via a web browser.
+
+Refer to Adafruit's tutorial for connecting the DS18B20: http://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/hardware
+
+Note that you can connect as many sensors to your Pi as you'd like. Atmospi will automatically detect them and log their measurements.
 
 Dependencies
 ------------
