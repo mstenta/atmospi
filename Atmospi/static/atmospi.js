@@ -40,6 +40,9 @@ $(function() {
         text: 'Temperature (°F)'
       }
     },
+    navigator: {
+      enabled: true
+    },
     rangeSelector: {
       enabled: true,
       buttons: [{
