@@ -32,13 +32,19 @@ $(function() {
         month: '%b \'%y',
         year: '%Y'
       },
+      gridLineWidth: 1,
       min: now - 24 * 60 * 60 * 1000,  // Default visible range of 1 day.
       max: now
     },
     yAxis: {
       title: {
         text: 'Temperature (°F)'
-      }
+      },
+      plotBands: [{
+        from: -100,
+        to: 32,
+        color: '#CCDDEE'
+      }]
     },
     navigator: {
       enabled: true
