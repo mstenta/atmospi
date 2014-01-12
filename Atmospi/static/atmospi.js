@@ -1,7 +1,10 @@
 $(function() {
 
   // Get the current time.
-  var now = new Date().getTime();
+  var now = new Date();
+
+  // Insert a div for the current time in the summary.
+  $('#summary').html('<h2>Latest Measurements:</h2>');
 
   // Use local timezone.
   Highcharts.setOptions({
@@ -33,8 +36,8 @@ $(function() {
         year: '%Y'
       },
       gridLineWidth: 1,
-      min: now - 24 * 60 * 60 * 1000,  // Default visible range of 1 day.
-      max: now
+      min: now.getTime() - 24 * 60 * 60 * 1000,  // Default visible range of 1 day.
+      max: now.getTime()
     },
     yAxis: {
       title: {
@@ -84,6 +87,9 @@ $(function() {
         return Highcharts.dateFormat('%b %e %H:%M', this.x) + ': <strong>' + this.y + ' °F</strong>';
       }
     },
+    legend: {
+      layout: 'vertical'
+    },
     plotOptions: {
       series: {
         marker: {
@@ -115,9 +121,9 @@ $(function() {
         }
         chart.addSeries(series);
 
-        // Insert the most recent measurement into the #summary div.
+        // Insert the most recent measurements into the #summary div.
         var last = data.pop();
-        $('#summary').append('<div id="' + device + '">' + device + ': <span class="temperature">' + last[1] + ' &deg;F</span></div>');
+        $('#summary').append('<div id="' + device + '">' + device + ': <span class="temperature">' + last[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(last[0])) + ')</span></div>');
 
         // Redraw.
         chart.redraw();

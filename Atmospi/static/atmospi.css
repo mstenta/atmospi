@@ -10,10 +10,14 @@ body {
   border: 1px solid #CCC;
   margin: 0 auto 1em auto;
   padding-bottom: 1em;
-  width: 25%;
+  width: 50%;
 }
-.temperature {
+#summary .temperature {
   font-weight: bold;
+}
+#summary .time {
+  color: #999;
+  font-size: smaller;
 }
 #graph {
   margin: auto;
