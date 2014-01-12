@@ -6,6 +6,15 @@ body {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
 }
+#summary {
+  border: 1px solid #CCC;
+  margin: 0 auto 1em auto;
+  padding-bottom: 1em;
+  width: 25%;
+}
+.temperature {
+  font-weight: bold;
+}
 #graph {
   margin: auto;
   height: 80%;
@@ -13,4 +22,5 @@ body {
 }
 #footer {
   font-size: small;
+  padding: 1em 0 2em 0;
 }

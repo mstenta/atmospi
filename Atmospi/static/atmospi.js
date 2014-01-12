@@ -115,6 +115,10 @@ $(function() {
         }
         chart.addSeries(series);
 
+        // Insert the most recent measurement into the #summary div.
+        var last = data.pop();
+        $('#summary').append('<div id="' + device + '">' + device + ': <span class="temperature">' + last[1] + ' &deg;F</span></div>');
+
         // Redraw.
         chart.redraw();
 
