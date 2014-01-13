@@ -55,28 +55,28 @@ $(function() {
     rangeSelector: {
       enabled: true,
       buttons: [{
-	      type: 'day',
-	      count: 1,
-	      text: '1d'
+        type: 'day',
+        count: 1,
+        text: '1d'
       }, {
-	      type: 'week',
-	      count: 1,
-	      text: '1w'
+        type: 'week',
+        count: 1,
+        text: '1w'
       }, {
-	      type: 'month',
-	      count: 1,
-	      text: '1m'
+        type: 'month',
+        count: 1,
+        text: '1m'
       }, {
-	      type: 'month',
-	      count: 6,
-	      text: '6m'
+        type: 'month',
+        count: 6,
+        text: '6m'
       }, {
-	      type: 'year',
-	      count: 1,
-	      text: '1y'
+        type: 'year',
+        count: 1,
+        text: '1y'
       }, {
-	      type: 'all',
-	      text: 'all'
+        type: 'all',
+        text: 'all'
       }]
     },
     scrollbar: {
