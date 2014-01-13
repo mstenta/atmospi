@@ -117,6 +117,7 @@ $(function() {
         // Add it as a series to the chart.
         var series = {
           name: device,
+          id: device,
           data: data
         }
         chart.addSeries(series);
@@ -124,6 +125,25 @@ $(function() {
         // Insert the most recent measurements into the #summary div.
         var last = data.pop();
         $('#summary').append('<div id="' + device + '">' + device + ': <span class="temperature">' + last[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(last[0])) + ')</span></div>');
+
+        // Load flags.
+        $.getJSON('data/device/' + device + '/flags', function(flags) {
+
+          // If there are flags...
+          if (flags.length > 0) {
+
+            // Define series for flags.
+            var series = {
+              type: 'flags',
+              name: device + ' annotations',
+              onSeries: device,
+              data: flags,
+            }
+
+            // Add the series.
+            chart.addSeries(series);
+          }
+        });
 
         // Redraw.
         chart.redraw();
