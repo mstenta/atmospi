@@ -87,6 +87,23 @@ def device_data(id):
 
     return json.dumps(data)
 
+# Define the device flags data router item.
+@app.route('/data/device/<id>/flags')
+def device_flags(id):
+
+    # Select all available device ids.
+    rows = db_select('SELECT * FROM Flag WHERE Device = ? ORDER BY Timestamp ASC', (id,));
+
+    # Gather flags.
+    flags = []
+    for row in rows:
+
+        # Add flags to the array.
+        flags.append({'x': int(str(row[1]) + '000'), 'title': row[2]})
+
+    # Return as a string.
+    return json.dumps(flags)
+
 # Run it!
 if __name__ == '__main__':
     app.run()
