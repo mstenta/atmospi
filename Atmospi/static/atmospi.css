@@ -10,7 +10,7 @@ body {
   border: 1px solid #CCC;
   margin: 0 auto 1em auto;
   padding-bottom: 1em;
-  width: 50%;
+  width: 95%;
 }
 #summary .temperature {
   font-weight: bold;
@@ -21,8 +21,8 @@ body {
 }
 #graph {
   margin: auto;
-  height: 80%;
-  width: 80%;
+  height: 95%;
+  width: 95%;
 }
 #footer {
   font-size: small;
