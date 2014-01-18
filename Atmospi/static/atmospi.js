@@ -20,7 +20,7 @@ $(function() {
       zoomType: 'x'
     },
     title: {
-      text: 'Temperatures by device:'
+      text: 'Measurements by device:'
     },
     subtitle: {
       text: document.ontouchstart === undefined ? 'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
@@ -102,8 +102,8 @@ $(function() {
   // Turn the loading text on.
   chart.showLoading();
 
-  // Load a list of devices.
-  $.getJSON('data/devices', function(devices) {
+  // Load a list of temperature sensing devices.
+  $.getJSON('data/devices/temperature', function(devices) {
 
     // Iterate through the devices...
     $.each(devices, function(index, device) {
@@ -111,8 +111,8 @@ $(function() {
       // Turn the loading text on.
       chart.showLoading();
 
-      // Load the device data.
-      $.getJSON('data/device/' + device, function(data) {
+      // Load the device temperature data.
+      $.getJSON('data/device/' + device + '/temperature', function(data) {
 
         // Add it as a series to the chart.
         var series = {
@@ -124,7 +124,7 @@ $(function() {
 
         // Insert the most recent measurements into the #summary div.
         var last = data.pop();
-        $('#summary').append('<div id="' + device + '">' + device + ': <span class="temperature">' + last[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(last[0])) + ')</span></div>');
+        $('#summary').append('<div id="' + device + '">' + device + ': <span class="measurement">' + last[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(last[0])) + ')</span></div>');
 
         // Load flags.
         $.getJSON('data/device/' + device + '/flags', function(flags) {

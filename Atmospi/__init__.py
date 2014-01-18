@@ -50,8 +50,8 @@ def index():
     # Return the rendered index.
     return render_template('index.html')
 
-# Define the devices router item.
-@app.route('/data/devices')
+# Define the temperature devices router item.
+@app.route('/data/devices/temperature')
 def devices():
 
     # Select all available device ids.
@@ -65,8 +65,8 @@ def devices():
     # Return as a string.
     return json.dumps(devices)
 
-# Define the device data router item.
-@app.route('/data/device/<id>')
+# Define the device temperature data router item.
+@app.route('/data/device/<id>/temperature')
 def device_data(id):
 
     # Select temperature readings for the specific device.

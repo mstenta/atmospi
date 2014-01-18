@@ -12,7 +12,7 @@ body {
   padding-bottom: 1em;
   width: 95%;
 }
-#summary .temperature {
+#summary .measurement {
   font-weight: bold;
 }
 #summary .time {
