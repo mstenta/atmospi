@@ -48,7 +48,7 @@ Setup
 4) Set up measurement script to run on a cron job as root.
 
     sudo crontab -e
-    */5 * * * * /home/pi/atmospi/measure-ds18b20.py >/dev/null 2>&1
+    */5 * * * * /home/pi/atmospi/Atmospi/measure-ds18b20.py >/dev/null 2>&1
 
 5) Add the Apache virtual host (provided) and restart Apache.
 
