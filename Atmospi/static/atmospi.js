@@ -17,7 +17,7 @@ $(function() {
   var chart = new Highcharts.Chart({
     chart: {
       renderTo: 'graph',
-      zoomType: 'x'
+      zoomType: 'xy'
     },
     title: {
       text: 'Measurements by device:'
