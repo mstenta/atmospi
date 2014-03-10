@@ -39,9 +39,14 @@ $(function() {
       min: now.getTime() - 24 * 60 * 60 * 1000,  // Default visible range of 1 day.
       max: now.getTime()
     },
-    yAxis: {
+    yAxis: [{
       title: {
         text: 'Temperature (°F)'
+      },
+      labels: {
+        formatter: function() {
+          return this.value + ' F'
+        },
       },
       plotBands: [{
         from: -100,
@@ -49,6 +54,16 @@ $(function() {
         color: '#CCDDEE'
       }]
     },
+    {
+      title: {
+        text: 'Humidity (%)'
+      },
+      labels: {
+        formatter: function() {
+          return this.value + '%'
+        },
+      }
+    }],
     navigator: {
       enabled: true
     },
@@ -83,9 +98,7 @@ $(function() {
       enabled: true
     },
     tooltip: {
-      formatter: function() {
-        return Highcharts.dateFormat('%b %e %H:%M', this.x) + ': <strong>' + this.y + ' °F</strong>';
-      }
+      shared: true,
     },
     legend: {
       layout: 'vertical'
@@ -118,7 +131,10 @@ $(function() {
         var series = {
           name: device,
           id: device,
-          data: data
+          data: data,
+          tooltip: {
+            valueSuffix: ' F'
+          }
         }
         chart.addSeries(series);
 
@@ -144,6 +160,43 @@ $(function() {
             chart.addSeries(series);
           }
         });
+
+        // Redraw.
+        chart.redraw();
+
+        // Hide the loading text.
+        chart.hideLoading();
+      });
+    });
+  });
+
+  // Load a list of humidity sensing devices.
+  $.getJSON('data/devices/humidity', function(devices) {
+
+    // Iterate through the devices...
+    $.each(devices, function(index, device) {
+
+      // Turn the loading text on.
+      chart.showLoading();
+
+      // Load the device humidity data.
+      $.getJSON('data/device/' + device + '/humidity', function(data) {
+
+        // Add it as a series to the chart.
+        var series = {
+          name: device,
+          id: device,
+          data: data,
+          tooltip: {
+            valueSuffix: '%'
+          },
+          yAxis: 1
+        }
+        chart.addSeries(series);
+
+        // Insert the most recent measurements into the #summary div.
+        var last = data.pop();
+        $('#summary').append('<div id="' + device + '">' + device + ': <span class="measurement">' + last[1] + ' %</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(last[0])) + ')</span></div>');
 
         // Redraw.
         chart.redraw();

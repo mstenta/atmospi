@@ -55,7 +55,7 @@ def index():
 
 # Define the temperature devices router item.
 @app.route('/data/devices/temperature')
-def devices():
+def devices_temperature():
 
     # Select all available device ids.
     rows = db_select('SELECT Device FROM Temperature GROUP BY Device');
@@ -68,9 +68,24 @@ def devices():
     # Return as a string.
     return json.dumps(devices)
 
+# Define the humidity devices router item.
+@app.route('/data/devices/humidity')
+def devices_humidity():
+
+    # Select all available device ids.
+    rows = db_select('SELECT Device FROM Humidity GROUP BY Device');
+
+    # Build an array of device ids.
+    devices = []
+    for row in rows:
+        devices.append(str(row[0]))
+
+    # Return as a string.
+    return json.dumps(devices)
+
 # Define the device temperature data router item.
 @app.route('/data/device/<id>/temperature')
-def device_data(id):
+def device_data_temperature(id):
 
     # Select temperature readings for the specific device.
     rows = db_select('SELECT * FROM Temperature WHERE Device = ? ORDER BY Timestamp ASC', (id,))
@@ -87,6 +102,28 @@ def device_data(id):
 
         # Append the data point.
         data.append([timestamp, temperature])
+
+    return json.dumps(data)
+
+# Define the device humidity data router item.
+@app.route('/data/device/<id>/humidity')
+def device_data_humidity(id):
+
+    # Select humidity readings for the specific device.
+    rows = db_select('SELECT * FROM Humidity WHERE Device = ? ORDER BY Timestamp ASC', (id,))
+
+    # Build a series of timestamps and humidity readings.
+    data = []
+    for row in rows:
+
+        # Get the timestamp (in milliseconds).
+        timestamp = int(str(row[1]) + '000')
+
+        # Get the humidity.
+        humidity = row[2]
+
+        # Append the data point.
+        data.append([timestamp, humidity])
 
     return json.dumps(data)
 

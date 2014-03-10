@@ -1,2 +1,4 @@
+*.pyc
+dhtreader.so
 log.db
 Atmospi/settings.py
