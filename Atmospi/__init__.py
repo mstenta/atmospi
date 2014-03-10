@@ -7,17 +7,20 @@ import json
 from flask import Flask
 from flask import render_template
 
+# Import settings.
+try:
+    from settings import settings
+except ImportError:
+    from default_settings import settings
+
 # Database select query helper.
 def db_select(query, args=()):
 
     # Try connecting and executing the query.
     try:
 
-        # Define the database file location.
-        db_file = '/home/pi/atmospi/log.db'
-
         # Open the database connection.
-        con = lite.connect(db_file)
+        con = lite.connect(settings['db'])
         db = con.cursor()
 
         # Execute the select.

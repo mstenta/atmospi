@@ -8,6 +8,12 @@ import time
 import sqlite3 as lite
 import re
 
+# Import settings.
+try:
+    from settings import settings
+except ImportError:
+    from default_settings import settings
+
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
@@ -48,7 +54,7 @@ def read_temps():
     return temps
 
 try:
-    con = lite.connect('/home/pi/atmospi/log.db')
+    con = lite.connect(settings['db'])
     db = con.cursor()
 
     # Get the current timestamp as an integer.
