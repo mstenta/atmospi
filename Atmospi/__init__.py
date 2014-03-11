@@ -127,6 +127,42 @@ def device_data_humidity(id):
 
     return json.dumps(data)
 
+# Define the latest temperature data router item.
+@app.route('/data/latest/temperature')
+def latest_temperature():
+
+    # Select all available device ids.
+    rows = db_select('SELECT MAX(Timestamp), Device, F FROM Temperature GROUP BY Device');
+
+    # Build a dictionary of data
+    data = {}
+    for row in rows:
+        timestamp = row[0]
+        device = row[1]
+        temperature = row[2]
+        data[device] = [timestamp, temperature]
+
+    # Return as a string.
+    return json.dumps(data)
+
+# Define the latest humidity data router item.
+@app.route('/data/latest/humidity')
+def latest_humidity():
+
+    # Select all available device ids.
+    rows = db_select('SELECT MAX(Timestamp), Device, H FROM Humidity GROUP BY Device');
+
+    # Build a dictionary of data
+    data = {}
+    for row in rows:
+        timestamp = row[0]
+        device = row[1]
+        humidity = row[2]
+        data[device] = [timestamp, humidity]
+
+    # Return as a string.
+    return json.dumps(data)
+
 # Define the device flags data router item.
 @app.route('/data/device/<id>/flags')
 def device_flags(id):

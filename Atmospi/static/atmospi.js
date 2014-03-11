@@ -1,6 +1,33 @@
 $(function() {
 
   /**
+   * Load latest measurements.
+   */
+  function loadLatestMeasurements() {
+
+    // Insert a div for the current time in the summary.
+    $('#summary').html('<h2>Latest Measurements:</h2>');
+
+    // Load the latest temperature data.
+    $.getJSON('data/latest/temperature', function(devices) {
+      $.each(devices, function(device, data) {
+
+        // Insert the most recent measurements into the #summary div.
+        $('#summary').append('<div id="' + device + '">' + device + ': <span class="measurement">' + data[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(data[0])) + ')</span></div>');
+      });
+    });
+
+    // Load the latest humidity data.
+    $.getJSON('data/latest/humidity', function(devices) {
+      $.each(devices, function(device, data) {
+
+        // Insert the most recent measurements into the #summary div.
+        $('#summary').append('<div id="' + device + '">' + device + ': <span class="measurement">' + data[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(data[0])) + ')</span></div>');
+      });
+    });
+  }
+
+  /**
    * Initial chart setup.
    */
   function initialSetup() {
@@ -14,9 +41,6 @@ $(function() {
         useUTC: false
       }
     });
-
-    // Insert a div for the current time in the summary.
-    $('#summary').html('<h2>Latest Measurements:</h2>');
 
     // Set up the Highcharts graph.
     var chart = new Highcharts.Chart({
@@ -143,10 +167,6 @@ $(function() {
           }
           chart.addSeries(series);
 
-          // Insert the most recent measurements into the #summary div.
-          var last = data.pop();
-          $('#summary').append('<div id="' + device + '">' + device + ': <span class="measurement">' + last[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(last[0])) + ')</span></div>');
-
           // Load flags.
           $.getJSON('data/device/' + device + '/flags', function(flags) {
 
@@ -199,10 +219,6 @@ $(function() {
           }
           chart.addSeries(series);
 
-          // Insert the most recent measurements into the #summary div.
-          var last = data.pop();
-          $('#summary').append('<div id="' + device + '">' + device + ': <span class="measurement">' + last[1] + ' %</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(last[0])) + ')</span></div>');
-
           // Redraw.
           chart.redraw();
 
@@ -214,5 +230,6 @@ $(function() {
   }
 
   // Do it!
+  loadLatestMeasurements();
   initialSetup();
 });
