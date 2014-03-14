@@ -2,46 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import time
-import sqlite3 as lite
 import json
+import db
 from flask import Flask
 from flask import render_template
-
-# Import settings.
-try:
-    from settings import settings
-except ImportError:
-    from default_settings import settings
-
-# Database select query helper.
-def db_select(query, args=()):
-
-    # Try connecting and executing the query.
-    try:
-
-        # Open the database connection.
-        con = lite.connect(settings['db'])
-        db = con.cursor()
-
-        # Execute the select.
-        db.execute(query, args)
-
-        # Fetch all the resulting rows.
-        rows = db.fetchall()
-
-        # Return the rows.
-        return rows
-
-    # If there was an error, roll back and print it.
-    except lite.Error, e:
-        if con:
-            con.rollback()
-        return 'Error selecting from the database file. ' + e
-
-    # At the end, close the database connection.
-    finally:
-        if con:
-            con.close()
 
 # Create a new Flask app.
 app = Flask(__name__)
@@ -58,7 +22,7 @@ def index():
 def devices_temperature():
 
     # Select all available device ids.
-    rows = db_select('SELECT Device FROM Temperature GROUP BY Device');
+    rows = db.select('SELECT Device FROM Temperature GROUP BY Device');
 
     # Build an array of device ids.
     devices = []
@@ -73,7 +37,7 @@ def devices_temperature():
 def devices_humidity():
 
     # Select all available device ids.
-    rows = db_select('SELECT Device FROM Humidity GROUP BY Device');
+    rows = db.select('SELECT Device FROM Humidity GROUP BY Device');
 
     # Build an array of device ids.
     devices = []
@@ -88,7 +52,7 @@ def devices_humidity():
 def device_data_temperature(id):
 
     # Select temperature readings for the specific device.
-    rows = db_select('SELECT * FROM Temperature WHERE Device = ? ORDER BY Timestamp ASC', (id,))
+    rows = db.select('SELECT * FROM Temperature WHERE Device = ? ORDER BY Timestamp ASC', (id,))
 
     # Build a series of timestamps and Fahrenheit readings.
     data = []
@@ -110,7 +74,7 @@ def device_data_temperature(id):
 def device_data_humidity(id):
 
     # Select humidity readings for the specific device.
-    rows = db_select('SELECT * FROM Humidity WHERE Device = ? ORDER BY Timestamp ASC', (id,))
+    rows = db.select('SELECT * FROM Humidity WHERE Device = ? ORDER BY Timestamp ASC', (id,))
 
     # Build a series of timestamps and humidity readings.
     data = []
@@ -132,7 +96,7 @@ def device_data_humidity(id):
 def latest_temperature():
 
     # Select all available device ids.
-    rows = db_select('SELECT MAX(Timestamp), Device, F FROM Temperature GROUP BY Device');
+    rows = db.select('SELECT MAX(Timestamp), Device, F FROM Temperature GROUP BY Device');
 
     # Build a dictionary of data
     data = {}
@@ -150,7 +114,7 @@ def latest_temperature():
 def latest_humidity():
 
     # Select all available device ids.
-    rows = db_select('SELECT MAX(Timestamp), Device, H FROM Humidity GROUP BY Device');
+    rows = db.select('SELECT MAX(Timestamp), Device, H FROM Humidity GROUP BY Device');
 
     # Build a dictionary of data
     data = {}
@@ -168,7 +132,7 @@ def latest_humidity():
 def device_flags(id):
 
     # Select all available device ids.
-    rows = db_select('SELECT * FROM Flag WHERE Device = ? ORDER BY Timestamp ASC', (id,));
+    rows = db.select('SELECT * FROM Flag WHERE Device = ? ORDER BY Timestamp ASC', (id,));
 
     # Gather flags.
     flags = []
