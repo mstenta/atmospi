@@ -101,7 +101,7 @@ def latest_temperature():
     # Build a dictionary of data
     data = {}
     for row in rows:
-        timestamp = row[0]
+        timestamp = int(str(row[0]) + '000')
         device = row[1]
         temperature = row[2]
         data[device] = [timestamp, temperature]
@@ -119,7 +119,7 @@ def latest_humidity():
     # Build a dictionary of data
     data = {}
     for row in rows:
-        timestamp = row[0]
+        timestamp = int(str(row[0]) + '000')
         device = row[1]
         humidity = row[2]
         data[device] = [timestamp, humidity]
