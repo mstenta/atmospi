@@ -5,6 +5,7 @@ import time
 import json
 import db
 from flask import Flask
+from flask import request
 from flask import render_template
 
 # Create a new Flask app.
@@ -51,8 +52,24 @@ def devices_humidity():
 @app.route('/data/device/<id>/temperature')
 def device_data_temperature(id):
 
-    # Select temperature readings for the specific device.
-    rows = db.select('SELECT * FROM Temperature WHERE Device = ? ORDER BY Timestamp ASC', (id,))
+    # If min and max values are set in the GET parameters, parse them.
+    if ('min' in request.args and 'max' in request.args):
+
+        # Convert milliseconds to seconds.
+        min = int(request.args['min']) / 1000
+        max = int(request.args['max']) / 1000
+
+        # Build the query and arguments.
+        query = 'SELECT * FROM Temperature WHERE Device = ? AND Timestamp BETWEEN ? AND ? ORDER BY Timestamp ASC'
+        args = (id, min, max,)
+
+    # Otherwise, get all data.
+    else:
+        query = 'SELECT * FROM Temperature WHERE Device = ? ORDER BY Timestamp ASC'
+        args = (id,)
+
+    # Execute the select query.
+    rows = db.select(query, args)
 
     # Build a series of timestamps and Fahrenheit readings.
     data = []
@@ -73,8 +90,24 @@ def device_data_temperature(id):
 @app.route('/data/device/<id>/humidity')
 def device_data_humidity(id):
 
-    # Select humidity readings for the specific device.
-    rows = db.select('SELECT * FROM Humidity WHERE Device = ? ORDER BY Timestamp ASC', (id,))
+    # If min and max values are set in the GET parameters, parse them.
+    if ('min' in request.args and 'max' in request.args):
+
+        # Convert milliseconds to seconds.
+        min = int(request.args['min']) / 1000
+        max = int(request.args['max']) / 1000
+
+        # Build the query and arguments.
+        query = 'SELECT * FROM Humidity WHERE Device = ? AND Timestamp BETWEEN ? AND ? ORDER BY Timestamp ASC'
+        args = (id, min, max,)
+
+    # Otherwise, get all data.
+    else:
+        query = 'SELECT * FROM Humidity WHERE Device = ? ORDER BY Timestamp ASC'
+        args = (id,)
+
+    # Execute the select query.
+    rows = db.select(query, args)
 
     # Build a series of timestamps and humidity readings.
     data = []
