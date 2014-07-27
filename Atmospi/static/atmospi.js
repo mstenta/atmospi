@@ -13,7 +13,7 @@ $(function() {
       $.each(devices, function(device, data) {
 
         // Insert the most recent measurements into the #summary div.
-        $('#summary').append('<div id="' + device + '">' + device + ': <span class="measurement">' + data[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(data[0])) + ')</span></div>');
+        $('#summary').append('<div id="' + device + '">' + device + ' (temperature): <span class="measurement">' + data[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(data[0])) + ')</span></div>');
       });
     });
 
@@ -22,7 +22,7 @@ $(function() {
       $.each(devices, function(device, data) {
 
         // Insert the most recent measurements into the #summary div.
-        $('#summary').append('<div id="' + device + '">' + device + ': <span class="measurement">' + data[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(data[0])) + ')</span></div>');
+        $('#summary').append('<div id="' + device + '">' + device + ' (humidity): <span class="measurement">' + data[1] + ' %</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(data[0])) + ')</span></div>');
       });
     });
   }
