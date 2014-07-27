@@ -115,5 +115,5 @@ Basically you just want to end up with a library file called dhtreader.so in the
 5) Set up measure-dht.py to run on a cron job as root.
 
     sudo crontab -e
-    */5 * * * * /home/pi/atmospi/measure-dht.py >/dev/null 2>&1
+    */5 * * * * /home/pi/atmospi/Atmospi/measure-dht.py >/dev/null 2>&1
 
