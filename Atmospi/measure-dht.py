@@ -13,9 +13,11 @@ except ImportError:
     from default_settings import settings
 
 # Define the sensor types (AM2302 is a DHT22 in an enclosure).
-DHT11 = 11
-DHT22 = 22
-AM2302 = 22
+sensor_types = {
+    'DHT11': 11,
+    'DHT22': 22,
+    'AM2302': 22
+}
 
 # Initialize the dhtreader.
 dhtreader.init()
@@ -25,17 +27,16 @@ def read_sensors():
     readings = {}
 
     # Iterate through the devices.
-    for device in settings['dht_devices']:
+    for name, device in settings['dht_devices'].iteritems():
 
         # Read the temperature and humidity from the device.
-        #tc, h = dhtreader.read(device['type'], device['pin'])
-        tc, h = dhtreader.read(22, 22)
+        tc, h = dhtreader.read(sensor_types[device['type']], device['pin'])
 
         # Convert celsius to fahrenheit.
         tf = tc * 9.0 / 5.0 + 32.0
 
         # Add the measurements to the readings array.
-        readings[device] = {'H': h, 'C': tc, 'F': tf}
+        readings[name] = {'H': h, 'C': tc, 'F': tf}
 
     # Return the list of devices and their readings.
     return readings
