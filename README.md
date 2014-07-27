@@ -91,10 +91,10 @@ Also note that you can connect as many DHT sensors to your Pi as you'd like, but
 2) Download and compile the C library for Broadcom BCM 2835 from http://www.airspayce.com/mikem/bcm2835/
 
     cd ~
-    wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.35.tar.gz
-    tar -xzf bcm2835-1.35.tar.gz
-    rm bcm2835-1.35.tar.gz
-    cd bcm2835-1.35
+    wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.36.tar.gz
+    tar -xzf bcm2835-1.36.tar.gz
+    rm bcm2835-1.36.tar.gz
+    cd bcm2835-1.36
     ./configure
     make
     sudo make check
