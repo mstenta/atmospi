@@ -48,10 +48,12 @@ Manual Setup
 6) Create a SQLite database called log.db in the atmospi directory.
 
     sqlite3 log.db
-    .tables
     CREATE TABLE Temperature(Device TEXT, Timestamp INT, C REAL, F REAL);
     CREATE TABLE Humidity(Device TEXT, Timestamp INT, H REAL);
     CREATE TABLE Flag(Device TEXT, Timestamp INT, Value TEXT);
+    CREATE INDEX temperature_timestamp ON Temperature(Timestamp);
+    CREATE INDEX humidity_timestamp ON Humidity(Timestamp);
+    CREATE INDEX flag_timestamp ON Flag(Timestamp);
     .exit
 
 7) Add the Apache virtual host (provided) and restart Apache.
