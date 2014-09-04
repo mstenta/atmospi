@@ -54,6 +54,9 @@ Manual Setup
     CREATE INDEX temperature_timestamp ON Temperature(Timestamp);
     CREATE INDEX humidity_timestamp ON Humidity(Timestamp);
     CREATE INDEX flag_timestamp ON Flag(Timestamp);
+    CREATE INDEX temperature_device ON Temperature(Device);
+    CREATE INDEX humidity_device ON Humidity(Device);
+    CREATE INDEX flag_device ON Flag(Device);
     .exit
 
 7) Add the Apache virtual host (provided) and restart Apache.
