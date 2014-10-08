@@ -17,6 +17,8 @@ Automatic Setup (with Puppet)
 
     ssh pi@[hostname]
     git clone https://github.com/mstenta/atmospi.git
+    sudo apt-get update
+    sudo apt-get upgrade
     sudo apt-get install puppet
     ./atmospi/puppet/puppet-apply.sh
 
