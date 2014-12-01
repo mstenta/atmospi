@@ -111,9 +111,9 @@ Also note that you can connect as many DHT sensors to your Pi as you'd like, but
     git clone https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code.git
     cd Adafruit-Raspberry-Pi-Python-Code/Adafruit_DHT_Driver_Python
     python setup.py build
-    cp build/lib.linux-armv6l-2.7/dhtreader.so ~/atmospi
+    cp build/lib.linux-armv6l-2.7/dhtreader.so ~/atmospi/Atmospi
 
-Basically you just want to end up with a library file called dhtreader.so in the main ~/atmospi directory.
+Basically you just want to end up with a library file called dhtreader.so in the main ~/atmospi/Atmospi directory.
 
 4) Edit settings.py and describe the sensors that are attached (see example in default_settings.py).
 
