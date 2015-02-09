@@ -25,6 +25,13 @@ def index():
     # Return the rendered index.
     return render_template('index.html')
 
+# Define the settings router item.
+@app.route('/settings')
+def settings_json():
+
+    # Return the Atmospi settings as JSON.
+    return json.dumps(settings);
+
 # Define the temperature devices router item.
 @app.route('/data/devices/temperature')
 def devices_temperature():
