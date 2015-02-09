@@ -50,15 +50,16 @@ Manual Setup
 6) Create a SQLite database called log.db in the atmospi directory.
 
     sqlite3 log.db
-    CREATE TABLE Temperature(Device TEXT, Timestamp INT, C REAL, F REAL);
-    CREATE TABLE Humidity(Device TEXT, Timestamp INT, H REAL);
-    CREATE TABLE Flag(Device TEXT, Timestamp INT, Value TEXT);
+    CREATE TABLE Devices(DeviceID INT PRIMARY KEY, Type TEXT, SerialID TEXT, Label TEXT);
+    CREATE TABLE Temperature(DeviceID INT, Timestamp INT, C REAL, F REAL);
+    CREATE TABLE Humidity(DeviceID INT, Timestamp INT, H REAL);
+    CREATE TABLE Flag(DeviceID INT, Timestamp INT, Value TEXT);
     CREATE INDEX temperature_timestamp ON Temperature(Timestamp);
     CREATE INDEX humidity_timestamp ON Humidity(Timestamp);
     CREATE INDEX flag_timestamp ON Flag(Timestamp);
-    CREATE INDEX temperature_device ON Temperature(Device);
-    CREATE INDEX humidity_device ON Humidity(Device);
-    CREATE INDEX flag_device ON Flag(Device);
+    CREATE INDEX temperature_device ON Temperature(DeviceID);
+    CREATE INDEX humidity_device ON Humidity(DeviceID);
+    CREATE INDEX flag_device ON Flag(DeviceID);
     .exit
 
 7) Add the Apache virtual host (provided) and restart Apache.
@@ -79,6 +80,10 @@ If you use the Puppet script to install, a cron job is already set up to take me
 
     sudo crontab -e
     */5 * * * * /home/pi/atmospi/Atmospi/measure-ds18b20.py >/dev/null 2>&1
+
+OPTIONAL) Sensors will be automatically labeled with their serial ID. If you would like to change this label, run the following query for each sensor:
+
+    UPDATE Devices SET Label = "New label" WHERE Type = 'ds18b20' AND SerialID = '28-000000000001';
 
 DHT11 / DHT22 / AM2302 Temperature and Humidity Sensor Setup
 ------------------------------------------------------------
@@ -115,7 +120,9 @@ Also note that you can connect as many DHT sensors to your Pi as you'd like, but
 
 Basically you just want to end up with a library file called dhtreader.so in the main ~/atmospi/Atmospi directory.
 
-4) Edit settings.py and describe the sensors that are attached (see example in default_settings.py).
+4) Insert rows into the Devices database to describe each of your sensors. For example:
+
+    INSERT INTO Devices (DeviceID, Type, SerialID, Label) VALUES (NULL, 'dht22', '22', 'Upstairs DHT22');
 
 5) Set up measure-dht.py to run on a cron job as root.
 
