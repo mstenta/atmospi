@@ -90,7 +90,7 @@ def latest_temperature():
 
         # Get the latest temperature.
         args = (device[0],)
-        rows = db.select("SELECT Timestamp, F FROM Temperature WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args)
+        rows = db.select("SELECT Timestamp, " + settings['t_unit'] + " FROM Temperature WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args)
 
         # Fill in the data.
         for row in rows:

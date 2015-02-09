@@ -3,6 +3,12 @@
 
 import db
 
+# Import settings.
+try:
+    from settings import settings
+except ImportError:
+    from default_settings import settings
+
 # Data query helper function.
 def query(device_id, device_type, range_min=0, range_max=0):
 
@@ -12,7 +18,7 @@ def query(device_id, device_type, range_min=0, range_max=0):
     # Determine the table name and fields based on the device type.
     if device_type == 'temperature':
         table = 'Temperature'
-        fields = 'Timestamp, F'
+        fields = 'Timestamp, ' + settings['t_unit']
     elif device_type == 'humidity':
         table = 'Humidity'
         fields = 'Timestamp, H'
