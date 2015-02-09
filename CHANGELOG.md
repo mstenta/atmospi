@@ -55,22 +55,16 @@ Fifth, remove the Device column from the Temperature, Humidity, and Flag databas
     COMMIT;
 
     BEGIN TRANSACTION;
-    CREATE TEMPORARY TABLE Flag_backup(a,b);
-    INSERT INTO Flag_backup SELECT a,b FROM Flag;
+    CREATE TEMPORARY TABLE Flag_backup(DeviceID INT, Timestamp INT, Value REAL);
+    INSERT INTO Flag_backup SELECT DeviceID, Timestamp, Value FROM Flag;
     DROP TABLE Flag;
-    CREATE TABLE Flag(a,b);
-    INSERT INTO Flag SELECT a,b FROM Flag_backup;
+    CREATE TABLE Flag(DeviceID INT, Timestamp INT, Value REAL);
+    INSERT INTO Flag SELECT DeviceID, Timestamp, Value FROM Flag_backup;
     DROP TABLE Flag_backup;
     COMMIT;
 
-Finally, clean up and reindex:
+Finally, build new (and much improved) indices:
 
-    DROP INDEX temperature_device;
-    DROP INDEX humidity_device;
-    DROP INDEX flag_device;
-    DROP INDEX temperature_timestamp;
-    DROP INDEX humidity_timestamp;
-    DROP INDEX flag_timestamp;
     CREATE INDEX temperature_dt ON Temperature(DeviceID, Timestamp);
     CREATE INDEX humidity_dt ON Humidity(DeviceID, Timestamp);
     CREATE INDEX flag_dt ON Flag(DeviceID, Timestamp);
