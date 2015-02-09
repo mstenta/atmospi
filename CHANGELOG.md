@@ -1,6 +1,6 @@
 v0.2.0
 ------
-Adds device identification (see https://github.com/mstenta/atmospi/issues/10)
+Adds device identification (see https://github.com/mstenta/atmospi/issues/10), which greatly improves data loading performance, and adds the ability to define human-friendly labels for each device.
 
 This release requires manual updates of both the datbase and settings.py.
 
