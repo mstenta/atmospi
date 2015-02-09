@@ -68,9 +68,12 @@ Finally, clean up and reindex:
     DROP INDEX temperature_device;
     DROP INDEX humidity_device;
     DROP INDEX flag_device;
-    CREATE INDEX temperature_device ON Temperature(DeviceID);
-    CREATE INDEX humidity_device ON Humidity(DeviceID);
-    CREATE INDEX flag_device ON Flag(DeviceID);
+    DROP INDEX temperature_timestamp;
+    DROP INDEX humidity_timestamp;
+    DROP INDEX flag_timestamp;
+    CREATE INDEX temperature_dt ON Temperature(DeviceID, Timestamp);
+    CREATE INDEX humidity_dt ON Humidity(DeviceID, Timestamp);
+    CREATE INDEX flag_dt ON Flag(DeviceID, Timestamp);
 
 And remove the dht_devices variable from settings.py, as it is no longer used.
 

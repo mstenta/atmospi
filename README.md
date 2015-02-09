@@ -54,12 +54,9 @@ Manual Setup
     CREATE TABLE Temperature(DeviceID INT, Timestamp INT, C REAL, F REAL);
     CREATE TABLE Humidity(DeviceID INT, Timestamp INT, H REAL);
     CREATE TABLE Flag(DeviceID INT, Timestamp INT, Value TEXT);
-    CREATE INDEX temperature_timestamp ON Temperature(Timestamp);
-    CREATE INDEX humidity_timestamp ON Humidity(Timestamp);
-    CREATE INDEX flag_timestamp ON Flag(Timestamp);
-    CREATE INDEX temperature_device ON Temperature(DeviceID);
-    CREATE INDEX humidity_device ON Humidity(DeviceID);
-    CREATE INDEX flag_device ON Flag(DeviceID);
+    CREATE INDEX temperature_dt ON Temperature(DeviceID, Timestamp);
+    CREATE INDEX humidity_dt ON Humidity(DeviceID, Timestamp);
+    CREATE INDEX flag_dt ON Flag(DeviceID, Timestamp);
     .exit
 
 7) Add the Apache virtual host (provided) and restart Apache.
