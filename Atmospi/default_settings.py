@@ -10,4 +10,7 @@ settings = {
 
     # The number of digits after the decimal place that will be stored.
     'precision': 2,
+
+    # Temperature unit of measure (C or F).
+    't_unit': 'F',
 }
