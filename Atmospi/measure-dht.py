@@ -14,51 +14,49 @@ except ImportError:
 
 # Define the sensor types (AM2302 is a DHT22 in an enclosure).
 sensor_types = {
-    'DHT11': 11,
-    'DHT22': 22,
-    'AM2302': 22
+    'dht11': 11,
+    'dht22': 22,
+    'am2302': 22
 }
 
 # Initialize the dhtreader.
 dhtreader.init()
 
-# Function definition for reading the sensors.
-def read_sensors():
-    readings = {}
+# Function definition for reading a sensor.
+def read_sensor(type, pin):
 
-    # Iterate through the devices.
-    for name, device in settings['dht_devices'].iteritems():
+    # Read the temperature and humidity from the device.
+    tc, h = dhtreader.read(sensor_types[type], int(pin))
 
-        # Read the temperature and humidity from the device.
-        tc, h = dhtreader.read(sensor_types[device['type']], device['pin'])
+    # Convert celsius to fahrenheit.
+    tf = tc * 9.0 / 5.0 + 32.0
 
-        # Convert celsius to fahrenheit.
-        tf = tc * 9.0 / 5.0 + 32.0
+    # Format the reading data.
+    reading = {'H': h, 'C': tc, 'F': tf}
 
-        # Add the measurements to the readings array.
-        readings[name] = {'H': h, 'C': tc, 'F': tf}
-
-    # Return the list of devices and their readings.
-    return readings
+    # Return the reading.
+    return reading
 
 try:
     con = lite.connect(settings['db'])
     db = con.cursor()
 
-    # Get the current timestamp as an integer.
-    timestamp = int(time.time())
+    # Retrieve the list of DHT devices from the database.
+    db.execute("SELECT DeviceID, Type, SerialID FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')");
+    devices = db.fetchall();
+    for device in devices:
 
-    # Gather the temperature readings from all devices.
-    readings = read_sensors()
+        # Get the current timestamp as an integer.
+        timestamp = int(time.time())
 
-    # Iterate through the devices.
-    for device, data in readings.items():
+        # Gather sensor data.
+        data = read_sensor(device[1], device[2])
 
         # Record the humidity to the database.
-        db.execute("INSERT INTO Humidity VALUES('" + device + "', " + str(timestamp) + ", " + str(data['H']) + ")")
+        db.execute("INSERT INTO Humidity (DeviceID, Timestamp, H) VALUES(" + str(device[0]) + ", " + str(timestamp) + ", " + str(data['H']) + ")")
 
         # Record the temperature to the database.
-        db.execute("INSERT INTO Temperature VALUES('" + device + "', " + str(timestamp) + ", " + str(data['C']) + ", " + str(data['F']) + ")")
+        db.execute("INSERT INTO Temperature (DeviceID, Timestamp, C, F) VALUES(" + str(device[0]) + ", " + str(timestamp) + ", " + str(data['C']) + ", " + str(data['F']) + ")")
 
     # Commit the changes to the database.
     con.commit()
