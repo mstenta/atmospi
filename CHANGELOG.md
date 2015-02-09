@@ -69,7 +69,7 @@ Finally, build new (and much improved) indices:
     CREATE INDEX humidity_dt ON Humidity(DeviceID, Timestamp);
     CREATE INDEX flag_dt ON Flag(DeviceID, Timestamp);
 
-And remove the dht_devices variable from settings.py, as it is no longer used.
+Update (or just delete) settings.py: The dht_devices variable that was used in settings.py to define DHT11, DHT22, and AM2302 is no longer used. If you are only using DS18B20 sensors, you don't have to do anything. Otherwise, you can delete the settings.py file and just let it fall back on default_settings.py.
 
 Update your code via Git:
 
