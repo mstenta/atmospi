@@ -1,3 +1,12 @@
+v0.2.3
+------
+
+This release adds a setting to select the default temperature units of measure (Celsius or Fahrenheit). It defaults to Fahrenheit, because I wrote it. :-)
+
+If you have a settings.py file overriding default_settings.py, you will need to add the new 't_unit' variable (see default_settings.py as an example).
+
+Restart Apache to complete the changes.
+
 v0.2.2
 ------
 
