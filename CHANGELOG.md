@@ -11,12 +11,15 @@ First, create a new Devices table in the SQLite database:
 Second, add records for each of your devices. Below is an example of each type.
 
 DS18B20:
+
     INSERT INTO Devices (DeviceID, Type, SerialID, Label) VALUES (NULL, 'ds18b20', '28-000000000001', 'Basement Temperature');
 
 DHT22:
+
     INSERT INTO Devices (DeviceID, Type, SerialID, Label) VALUES (NULL, 'dht22', '22', 'DHT22 Sensor on Pin 22');
 
 AM2302:
+
     INSERT INTO Devices (DeviceID, Type, SerialID, Label) VALUES (NULL, 'am2302', '16', 'AM2302 Sensor on Pin 16');
 
 Third, add a new DeviceID column to the Temperature, Humidity, and Flag tables:
@@ -25,7 +28,7 @@ Third, add a new DeviceID column to the Temperature, Humidity, and Flag tables:
     ALTER TABLE Humidity ADD COLUMN DeviceID INT;
     ALTER TABLE Flag ADD COLUMN DeviceID INT;
 
-Fourth, populate the new DeviceID columns with your new sensor information. For example, if you have a DHT22 sensor that was previously labelled "Upstairs DHT22" in settings.ph, and it now has a DeviceID of 1 in the Devices table, run the following:
+Fourth, reference the new device IDs in the Temperature, Humidity, and Flag tables. For example, if you have a DHT22 sensor that was previously labeled "Upstairs DHT22" in settings.py, and it now has a DeviceID of 1 in the Devices table, run the following:
 
     UPDATE Temperature SET DeviceID = 1 WHERE Device = "Upstairs DHT22";
     UPDATE Humidity SET DeviceID = 1 WHERE Device = "Upstairs DHT22";
