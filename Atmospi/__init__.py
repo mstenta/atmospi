@@ -9,6 +9,12 @@ from flask import Flask
 from flask import request
 from flask import render_template
 
+# Import settings.
+try:
+    from settings import settings
+except ImportError:
+    from default_settings import settings
+
 # Create a new Flask app.
 app = Flask(__name__)
 
@@ -53,9 +59,9 @@ def devices_humidity():
 @app.route('/data/device/<device_id>/<device_type>')
 def device_data(device_id, device_type):
 
-    # Set min and max range values, starting with a default of 0 (no range).
-    range_min = 0
-    range_max = 0
+    # Set min and max range values, starting with the past X seconds (from settings) from right now.
+    range_max = int(time.time())
+    range_min = range_max - settings['range_seconds']
 
     # If min and max values are set in the GET parameters, convert them to
     # milliseconds.
