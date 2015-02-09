@@ -66,8 +66,14 @@ try:
     # Iterate through the devices.
     for device, data in temps.items():
 
+        # Retrieve the device ID from the Devices table.
+        db.execute("SELECT DeviceID FROM Devices WHERE Type = 'ds18b20' AND SerialID = '" + device + "'");
+        rows = db.fetchall();
+        for row in rows:
+            id = row[0]
+
         # Record the temperatures to the database.
-        db.execute("INSERT INTO Temperature VALUES('" + device + "', " + str(timestamp) + ", " + str(data['C']) + ", " + str(data['F']) + ")")
+        db.execute("INSERT INTO Temperature (DeviceID, Timestamp, C, F) VALUES(" + str(id) + ", " + str(timestamp) + ", " + str(data['C']) + ", " + str(data['F']) + ")")
 
     # Commit the changes to the database.
     con.commit()
