@@ -73,16 +73,25 @@ def device_data(device_id, device_type):
 @app.route('/data/latest/temperature')
 def latest_temperature():
 
-    # Select all available device ids.
-    rows = db.select('SELECT MAX(Timestamp), Device, F FROM Temperature GROUP BY Device');
-
-    # Build a dictionary of data
+    # Build a dictionary of data.
     data = {}
-    for row in rows:
-        timestamp = int(str(row[0]) + '000')
-        device = row[1]
-        temperature = row[2]
-        data[device] = [timestamp, temperature]
+
+    # Select all temperature devices.
+    devices = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('ds18b20', 'dht22', 'dht11', 'am2302')");
+
+    # Iterate through the devices.
+    for device in devices:
+
+        # Get the latest temperature.
+        args = (device[0],)
+        rows = db.select("SELECT Timestamp, F FROM Temperature WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args);
+
+        # Fill in the data.
+        for row in rows:
+            timestamp = int(str(row[0]) + '000')
+            label = device[1]
+            temperature = row[1]
+            data[label] = [timestamp, temperature]
 
     # Return as a string.
     return json.dumps(data)
@@ -91,16 +100,25 @@ def latest_temperature():
 @app.route('/data/latest/humidity')
 def latest_humidity():
 
-    # Select all available device ids.
-    rows = db.select('SELECT MAX(Timestamp), Device, H FROM Humidity GROUP BY Device');
-
-    # Build a dictionary of data
+    # Build a dictionary of data.
     data = {}
-    for row in rows:
-        timestamp = int(str(row[0]) + '000')
-        device = row[1]
-        humidity = row[2]
-        data[device] = [timestamp, humidity]
+
+    # Select all humidity devices.
+    devices = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')");
+
+    # Iterate through the devices.
+    for device in devices:
+
+        # Get the latest humidity.
+        args = (device[0],)
+        rows = db.select("SELECT Timestamp, H FROM Humidity WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args);
+
+        # Fill in the data.
+        for row in rows:
+            timestamp = int(str(row[0]) + '000')
+            label = device[1]
+            humidity = row[1]
+            data[label] = [timestamp, humidity]
 
     # Return as a string.
     return json.dumps(data)
