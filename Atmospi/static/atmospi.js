@@ -158,7 +158,7 @@ $(function() {
 
           // Add it as a series to the chart.
           var series = {
-            name: label,
+            name: label + ' (temperature)',
             id: device,
             data: data,
             tooltip: {
@@ -176,7 +176,7 @@ $(function() {
               // Define series for flags.
               var series = {
                 type: 'flags',
-                name: label + ' annotations',
+                name: label + ' (flags)',
                 onSeries: device,
                 data: flags,
               }
@@ -209,7 +209,7 @@ $(function() {
 
           // Add it as a series to the chart.
           var series = {
-            name: label,
+            name: label + ' (humidity)',
             id: device,
             data: data,
             tooltip: {
