@@ -24,12 +24,12 @@ def index():
 def devices_temperature():
 
     # Select all available device ids.
-    rows = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('ds18b20', 'dht22', 'dht11', 'am2302')");
+    rows = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('ds18b20', 'dht22', 'dht11', 'am2302')")
 
     # Build a dictionary of devices.
     devices = {}
     for row in rows:
-        devices[row[0]] = row[1];
+        devices[row[0]] = row[1]
 
     # Return as a string.
     return json.dumps(devices)
@@ -39,12 +39,12 @@ def devices_temperature():
 def devices_humidity():
 
     # Select all available device ids.
-    rows = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')");
+    rows = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')")
 
     # Build a dictionary of devices.
     devices = {}
     for row in rows:
-        devices[row[0]] = row[1];
+        devices[row[0]] = row[1]
 
     # Return as a string.
     return json.dumps(devices)
@@ -77,14 +77,14 @@ def latest_temperature():
     data = {}
 
     # Select all temperature devices.
-    devices = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('ds18b20', 'dht22', 'dht11', 'am2302')");
+    devices = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('ds18b20', 'dht22', 'dht11', 'am2302')")
 
     # Iterate through the devices.
     for device in devices:
 
         # Get the latest temperature.
         args = (device[0],)
-        rows = db.select("SELECT Timestamp, F FROM Temperature WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args);
+        rows = db.select("SELECT Timestamp, F FROM Temperature WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args)
 
         # Fill in the data.
         for row in rows:
@@ -104,14 +104,14 @@ def latest_humidity():
     data = {}
 
     # Select all humidity devices.
-    devices = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')");
+    devices = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')")
 
     # Iterate through the devices.
     for device in devices:
 
         # Get the latest humidity.
         args = (device[0],)
-        rows = db.select("SELECT Timestamp, H FROM Humidity WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args);
+        rows = db.select("SELECT Timestamp, H FROM Humidity WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args)
 
         # Fill in the data.
         for row in rows:

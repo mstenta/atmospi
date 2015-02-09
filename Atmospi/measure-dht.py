@@ -42,8 +42,8 @@ try:
     db = con.cursor()
 
     # Retrieve the list of DHT devices from the database.
-    db.execute("SELECT DeviceID, Type, SerialID FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')");
-    devices = db.fetchall();
+    db.execute("SELECT DeviceID, Type, SerialID FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')")
+    devices = db.fetchall()
     for device in devices:
 
         # Get the current timestamp as an integer.
