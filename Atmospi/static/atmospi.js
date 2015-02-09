@@ -3,7 +3,7 @@ $(function() {
   /**
    * Load latest measurements.
    */
-  function loadLatestMeasurements() {
+  function loadLatestMeasurements(settings) {
 
     // Insert a div for the current time in the summary.
     $('#summary').html('<h2>Latest Measurements:</h2>');
@@ -13,7 +13,7 @@ $(function() {
       $.each(devices, function(device, data) {
 
         // Insert the most recent measurements into the #summary div.
-        $('#summary').append('<div id="' + device + '">' + device + ' (temperature): <span class="measurement">' + data[1] + ' &deg;F</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(data[0])) + ')</span></div>');
+        $('#summary').append('<div id="' + device + '">' + device + ' (temperature): <span class="measurement">' + data[1] + ' &deg;' + settings['t_unit'] + '</span> <span class="time">(' + Highcharts.dateFormat('%b %e, %Y - %H:%M', new Date(data[0])) + ')</span></div>');
       });
     });
 
@@ -30,7 +30,7 @@ $(function() {
   /**
    * Initial chart setup.
    */
-  function initialSetup() {
+  function initialSetup(settings) {
 
     // Get the current time.
     var now = new Date();
@@ -41,6 +41,9 @@ $(function() {
         useUTC: false
       }
     });
+
+    // Calculate freezing temperature based on temperature unit.
+    var freezing = (settings['t_unit'] == 'F') ? 32 : 0;
 
     // Set up the Highcharts graph.
     var chart = new Highcharts.Chart({
@@ -74,12 +77,12 @@ $(function() {
         },
         labels: {
           formatter: function() {
-            return this.value + ' F'
+            return this.value + ' ' + settings['t_unit']
           },
         },
         plotBands: [{
           from: -100,
-          to: 32,
+          to: freezing,
           color: '#CCDDEE'
         }]
       },
@@ -162,7 +165,7 @@ $(function() {
             id: device,
             data: data,
             tooltip: {
-              valueSuffix: ' F'
+              valueSuffix: ' ' + settings['t_unit']
             }
           }
           chart.addSeries(series);
@@ -229,7 +232,13 @@ $(function() {
     });
   }
 
-  // Do it!
-  loadLatestMeasurements();
-  initialSetup();
+  // Load Atmospi settings and begin!
+  $.getJSON('settings', function(settings) {
+
+    // Load the latest measurements.
+    loadLatestMeasurements(settings);
+
+    // Set up the graph.
+    initialSetup(settings);
+  });
 });
