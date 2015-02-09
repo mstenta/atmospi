@@ -4,6 +4,10 @@ Adds device identification (see https://github.com/mstenta/atmospi/issues/10), w
 
 This release requires manual updates of both the datbase and settings.py.
 
+It is highly recommended that you back up your database file before proceeding.
+
+    cp ~/atmospi/log.db ~/atmospi/log.db.v0.1.0
+
 First, create a new Devices table in the SQLite database:
 
     CREATE TABLE Devices(DeviceID INTEGER PRIMARY KEY, Type TEXT, SerialID TEXT, Label TEXT);
