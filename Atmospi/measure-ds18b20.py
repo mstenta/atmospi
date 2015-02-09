@@ -44,6 +44,10 @@ def read_temps():
             temp_c = float(temp_string) / 1000.0
             temp_f = temp_c * 9.0 / 5.0 + 32.0
 
+            # Round all measurements to the precision defined in settings.
+            temp_c = round(temp_c, settings['precision'])
+            temp_f = round(temp_f, settings['precision'])
+
             # Get the unique name of the device.
             device = file
             device = re.sub('/sys/bus/w1/devices/', '', device)

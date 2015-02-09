@@ -31,6 +31,11 @@ def read_sensor(type, pin):
     # Convert celsius to fahrenheit.
     tf = tc * 9.0 / 5.0 + 32.0
 
+    # Round all measurements to the precision defined in settings.
+    tc = round(tc, settings['precision'])
+    tf = round(tf, settings['precision'])
+    h = round(h, settings['precision'])
+
     # Format the reading data.
     reading = {'H': h, 'C': tc, 'F': tf}
 
