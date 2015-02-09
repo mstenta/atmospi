@@ -215,6 +215,7 @@ $(function() {
             name: label + ' (humidity)',
             id: device,
             data: data,
+            dashStyle: 'dot',
             tooltip: {
               valueSuffix: '%'
             },
