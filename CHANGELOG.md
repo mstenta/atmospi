@@ -1,3 +1,17 @@
+v0.2.2
+------
+
+This release adds a setting for specifying how many decimal places to store (measurement precision), and defaults to 2.
+
+If you have a settings.py file overriding default_settings.py, you will need to add the new 'precision' variable (see default_settings.py as an example).
+
+v0.2.1
+------
+
+This release adds a setting for specifying how much data to load, and defaults to loading only data from the past week.
+
+If you have a settings.py file overriding default_settings.py, you will need to add the new 'range_seconds' variable (see default_settings.py as an example).
+
 v0.2.0
 ------
 Adds device identification (see https://github.com/mstenta/atmospi/issues/10), which greatly improves data loading performance, and adds the ability to define human-friendly labels for each device.
