@@ -1,0 +1,3 @@
+v0.1.0
+------
+This is an initial pre-release for folks running Atmospis. Following releases may start to introduce database and/or settings.py changes that require some manual updating. If so, these release notes will be used to document the necessary steps.
