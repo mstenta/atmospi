@@ -50,7 +50,7 @@ Manual Setup
 6) Create a SQLite database called log.db in the atmospi directory.
 
     sqlite3 log.db
-    CREATE TABLE Devices(DeviceID INT PRIMARY KEY, Type TEXT, SerialID TEXT, Label TEXT);
+    CREATE TABLE Devices(DeviceID INTEGER PRIMARY KEY, Type TEXT, SerialID TEXT, Label TEXT);
     CREATE TABLE Temperature(DeviceID INT, Timestamp INT, C REAL, F REAL);
     CREATE TABLE Humidity(DeviceID INT, Timestamp INT, H REAL);
     CREATE TABLE Flag(DeviceID INT, Timestamp INT, Value TEXT);

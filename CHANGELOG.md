@@ -6,7 +6,7 @@ This release requires manual updates of both the datbase and settings.py.
 
 First, create a new Devices table in the SQLite database:
 
-    CREATE TABLE Devices(DeviceID INT PRIMARY KEY, Type TEXT, SerialID TEXT, Label TEXT);
+    CREATE TABLE Devices(DeviceID INTEGER PRIMARY KEY, Type TEXT, SerialID TEXT, Label TEXT);
 
 Second, add records for each of your devices. Below is an example of each type.
 
@@ -70,6 +70,16 @@ Finally, build new (and much improved) indices:
     CREATE INDEX flag_dt ON Flag(DeviceID, Timestamp);
 
 And remove the dht_devices variable from settings.py, as it is no longer used.
+
+Update your code via Git:
+
+    git checkout v0.2.0
+
+Restart Apache:
+
+    sudo apache2ctl restart
+
+Done!
 
 v0.1.0
 ------
