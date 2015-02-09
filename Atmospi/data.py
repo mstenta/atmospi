@@ -23,7 +23,7 @@ def query(device_id, device_type, range_min=0, range_max=0):
         return results
 
     # Build the query and arguments...
-    query = 'SELECT ' + fields + ' FROM ' + table + ' WHERE Device = ?'
+    query = 'SELECT ' + fields + ' FROM ' + table + ' WHERE DeviceID = ?'
     args = (device_id,)
 
     # If min and max values are provided...

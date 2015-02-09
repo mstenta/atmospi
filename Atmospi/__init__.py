@@ -24,7 +24,7 @@ def index():
 def devices_temperature():
 
     # Select all available device ids.
-    rows = db.select('SELECT Device FROM Temperature GROUP BY Device');
+    rows = db.select("SELECT DeviceID FROM Devices WHERE Type IN ('ds18b20', 'dht22', 'dht11', 'am2302')");
 
     # Build an array of device ids.
     devices = []
@@ -39,7 +39,7 @@ def devices_temperature():
 def devices_humidity():
 
     # Select all available device ids.
-    rows = db.select('SELECT Device FROM Humidity GROUP BY Device');
+    rows = db.select("SELECT DeviceID FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')");
 
     # Build an array of device ids.
     devices = []
