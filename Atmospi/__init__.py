@@ -24,12 +24,12 @@ def index():
 def devices_temperature():
 
     # Select all available device ids.
-    rows = db.select("SELECT DeviceID FROM Devices WHERE Type IN ('ds18b20', 'dht22', 'dht11', 'am2302')");
+    rows = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('ds18b20', 'dht22', 'dht11', 'am2302')");
 
-    # Build an array of device ids.
-    devices = []
+    # Build a dictionary of devices.
+    devices = {}
     for row in rows:
-        devices.append(str(row[0]))
+        devices[row[0]] = row[1];
 
     # Return as a string.
     return json.dumps(devices)
@@ -39,12 +39,12 @@ def devices_temperature():
 def devices_humidity():
 
     # Select all available device ids.
-    rows = db.select("SELECT DeviceID FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')");
+    rows = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')");
 
-    # Build an array of device ids.
-    devices = []
+    # Build a dictionary of devices.
+    devices = {}
     for row in rows:
-        devices.append(str(row[0]))
+        devices[row[0]] = row[1];
 
     # Return as a string.
     return json.dumps(devices)

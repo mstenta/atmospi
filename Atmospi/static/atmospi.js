@@ -148,7 +148,7 @@ $(function() {
     $.getJSON('data/devices/temperature', function(devices) {
 
       // Iterate through the devices...
-      $.each(devices, function(index, device) {
+      $.each(devices, function(device, label) {
 
         // Turn the loading text on.
         chart.showLoading();
@@ -158,7 +158,7 @@ $(function() {
 
           // Add it as a series to the chart.
           var series = {
-            name: device,
+            name: label,
             id: device,
             data: data,
             tooltip: {
@@ -176,7 +176,7 @@ $(function() {
               // Define series for flags.
               var series = {
                 type: 'flags',
-                name: device + ' annotations',
+                name: label + ' annotations',
                 onSeries: device,
                 data: flags,
               }
@@ -199,7 +199,7 @@ $(function() {
     $.getJSON('data/devices/humidity', function(devices) {
 
       // Iterate through the devices...
-      $.each(devices, function(index, device) {
+      $.each(devices, function(device, label) {
 
         // Turn the loading text on.
         chart.showLoading();
@@ -209,7 +209,7 @@ $(function() {
 
           // Add it as a series to the chart.
           var series = {
-            name: device,
+            name: label,
             id: device,
             data: data,
             tooltip: {
