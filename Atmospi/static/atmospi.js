@@ -73,7 +73,7 @@ $(function() {
       },
       yAxis: [{
         title: {
-          text: 'Temperature (°F)'
+          text: 'Temperature (°' + settings['t_unit'] + ')'
         },
         labels: {
           formatter: function() {
