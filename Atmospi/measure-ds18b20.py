@@ -72,12 +72,16 @@ try:
 
         # Retrieve the device ID from the Devices table.
         db.execute("SELECT DeviceID FROM Devices WHERE Type = 'ds18b20' AND SerialID = '" + device + "'")
-        id = db.fetchone()[0]
+        result = db.fetchone()
 
         # If the ID wasn't found, add it automatically.
-        if not id:
-          db.execute("INSERT INTO Devices (DeviceID, Type, SerialID, Label) VALUES (NULL, 'ds18b20', " + device + ", " + device + ")")
+        if result is None:
+          db.execute("INSERT INTO Devices (DeviceID, Type, SerialID, Label) VALUES (NULL, 'ds18b20', '" + device + "', '" + device + "')")
           id = db.lastrowid
+
+        # Otherwise, use the returned ID.
+        else:
+            id = result[0]
 
         # Record the temperatures to the database.
         db.execute("INSERT INTO Temperature (DeviceID, Timestamp, C, F) VALUES(" + str(id) + ", " + str(timestamp) + ", " + str(data['C']) + ", " + str(data['F']) + ")")
