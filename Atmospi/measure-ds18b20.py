@@ -14,8 +14,8 @@ try:
 except ImportError:
     from default_settings import settings
 
-os.system('modprobe w1-gpio')
-os.system('modprobe w1-therm')
+os.system('/sbin/modprobe w1-gpio')
+os.system('/sbin/modprobe w1-therm')
 
 base_dir = '/sys/bus/w1/devices/'
 device_folders = glob.glob(base_dir + '28*')
