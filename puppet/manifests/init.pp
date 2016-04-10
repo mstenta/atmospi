@@ -16,22 +16,6 @@ node 'default' {
     ensure => latest,
   }
 
-  # Set the timezone.
-  file { '/etc/localtime':
-    ensure => link,
-    target => "/usr/share/zoneinfo/America/New_York",
-  }
-  file { '/etc/timezone':
-    ensure => present,
-    content => "America/New_York",
-  }
-
-  # Set the default locale.
-  file { '/etc/default/locale':
-    ensure => present,
-    content => 'LANG="en_US.UTF-8"',
-  }
-
   # Install SQLite3
   package { 'sqlite3':
     ensure => latest,
