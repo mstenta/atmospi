@@ -22,6 +22,8 @@ Automatic Setup (with Puppet)
     sudo apt-get install puppet
     ./atmospi/puppet/puppet-apply.sh
 
+You also need to follow step 6 (Create a SQLite database called log.db in the atmospi directory) in Manual Setup below, to create your log.db file.
+
 Manual Setup
 ------------
 
