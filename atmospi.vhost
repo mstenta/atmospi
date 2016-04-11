@@ -5,10 +5,12 @@
     WSGIDaemonProcess atmospi user=pi group=pi threads=5
     WSGIScriptAlias / /home/pi/atmospi/atmospi.wsgi
 
+    <Directory /home/pi/atmospi>
+        Require all granted
+    </Directory>
+
     <Directory /home/pi/atmospi/Atmospi>
         WSGIProcessGroup atmospi
         WSGIApplicationGroup %{GLOBAL}
-        Order deny,allow
-        Allow from all
     </Directory>
 </VirtualHost>
