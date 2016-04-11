@@ -40,7 +40,7 @@ node 'default' {
 
   # Symlink the atmospi virtual host into Apache.
   file { 'atmospi-vhost':
-    path => '/etc/apache2/sites-enabled/000-atmospi',
+    path => '/etc/apache2/sites-enabled/000-atmospi.conf',
     ensure => 'link',
     target => '/home/pi/atmospi/atmospi.vhost',
     require => Package['libapache2-mod-wsgi'],
