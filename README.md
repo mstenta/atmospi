@@ -82,7 +82,7 @@ If you use the Puppet script to install, a cron job is already set up to take me
 
 OPTIONAL) Sensors will be automatically labeled with their serial ID. If you would like to change this label, run the following query for each sensor:
 
-    UPDATE Devices SET Label = "New label" WHERE Type = 'ds18b20' AND SerialID = '28-000000000001';
+    UPDATE Devices SET Label = 'New label' WHERE Type = 'ds18b20' AND SerialID = '28-000000000001';
 
 DHT11 / DHT22 / AM2302 Temperature and Humidity Sensor Setup
 ------------------------------------------------------------
