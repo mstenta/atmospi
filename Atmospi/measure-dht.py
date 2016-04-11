@@ -3,7 +3,7 @@
 
 import sys
 import time
-import dhtreader
+import Adafruit_DHT
 import sqlite3 as lite
 
 # Import settings.
@@ -19,14 +19,11 @@ sensor_types = {
     'am2302': 22
 }
 
-# Initialize the dhtreader.
-dhtreader.init()
-
 # Function definition for reading a sensor.
 def read_sensor(type, pin):
 
     # Read the temperature and humidity from the device.
-    tc, h = dhtreader.read(sensor_types[type], int(pin))
+    tc, h = Adafruit_DHT.read_retry(sensor_types[type], int(pin))
 
     # Convert celsius to fahrenheit.
     tf = tc * 9.0 / 5.0 + 32.0

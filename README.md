@@ -97,33 +97,18 @@ Also note that you can connect as many DHT sensors to your Pi as you'd like, but
 
     sudo apt-get install python-dev
 
-2) Download and compile the C library for Broadcom BCM 2835 from http://www.airspayce.com/mikem/bcm2835/
+2) Build the dhtreader.so library using the setup.py and dhtreader.c files in Adafruit's DHT Python Driver example: https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code/tree/master/Adafruit_DHT_Driver_Python
 
     cd ~
-    wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.36.tar.gz
-    tar -xzf bcm2835-1.36.tar.gz
-    rm bcm2835-1.36.tar.gz
-    cd bcm2835-1.36
-    ./configure
-    make
-    sudo make check
-    sudo make install
+    git clone https://github.com/adafruit/Adafruit_Python_DHT.git
+    cd Adafruit_Python_DHT
+    sudo python setup.py install
 
-3) Build the dhtreader.so library using the setup.py and dhtreader.c files in Adafruit's DHT Python Driver example: https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code/tree/master/Adafruit_DHT_Driver_Python
-
-    cd ~
-    git clone https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code.git
-    cd Adafruit-Raspberry-Pi-Python-Code/Adafruit_DHT_Driver_Python
-    python setup.py build
-    cp build/lib.linux-armv7l-2.7/dhtreader.so ~/atmospi/Atmospi
-
-Basically you just want to end up with a library file called dhtreader.so in the main ~/atmospi/Atmospi directory.
-
-4) Insert rows into the Devices database to describe each of your sensors. For example:
+3) Insert rows into the Devices database to describe each of your sensors. For example:
 
     INSERT INTO Devices (DeviceID, Type, SerialID, Label) VALUES (NULL, 'dht22', '22', 'Upstairs DHT22');
 
-5) Set up measure-dht.py to run on a cron job as root.
+4) Set up measure-dht.py to run on a cron job as root.
 
     sudo crontab -e
     */5 * * * * /home/pi/atmospi/Atmospi/measure-dht.py >/dev/null 2>&1
