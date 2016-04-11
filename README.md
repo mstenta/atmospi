@@ -63,7 +63,7 @@ Manual Setup
 
 7) Add the Apache virtual host (provided) and restart Apache.
 
-    sudo ln -s /home/pi/atmospi/atmospi.vhost /etc/apache2/sites-enabled/atmospi
+    sudo ln -s /home/pi/atmospi/atmospi.vhost /etc/apache2/sites-enabled/000-atmospi.conf
     sudo apache2ctl restart
 
 DS18B20 Temperature Sensor Setup
