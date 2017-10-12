@@ -3,10 +3,10 @@ v0.2.4
 
 This release fixes a few bugs:
 
-https://github.com/mstenta/atmospi/issues/3
-https://github.com/mstenta/atmospi/issues/26
-https://github.com/mstenta/atmospi/issues/27
-https://github.com/mstenta/atmospi/issues/28
+* https://github.com/mstenta/atmospi/issues/3
+* https://github.com/mstenta/atmospi/issues/26
+* https://github.com/mstenta/atmospi/issues/27
+* https://github.com/mstenta/atmospi/issues/28
 
 It also changes humidity graphs to a dotted line, so that they can be more easily distinguised from temperature (solid line).
 
