@@ -23,7 +23,7 @@ sensor_types = {
 def read_sensor(type, pin):
 
     # Read the temperature and humidity from the device.
-    tc, h = Adafruit_DHT.read_retry(sensor_types[type], int(pin))
+    h, tc = Adafruit_DHT.read_retry(sensor_types[type], int(pin))
 
     # Convert celsius to fahrenheit.
     tf = tc * 9.0 / 5.0 + 32.0
