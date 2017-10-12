@@ -29,28 +29,39 @@ Manual Setup
 
 1) SSH into Raspberry Pi
 
+    ```
     ssh pi@[hostname]
+    ```
 
 2) Upgrade all packages.
 
+    ```
     sudo apt-get update
     sudo apt-get upgrade
+    ```
 
 3) Install SQLite3 and Apache2 with the WSGI moduile.
 
-    sudo apt-get install sqlite3 apache2 libapache2-mod-wsgi
+     ```
+   sudo apt-get install sqlite3 apache2 libapache2-mod-wsgi
+    ```
 
 4) Install Flask via PIP.
 
+    ```
     sudo apt-get install python-pip
     sudo pip install Flask
+    ```
 
 5) Clone the repository into pi's home directory.
 
+    ```
     git clone https://github.com/mstenta/atmospi.git
+    ```
 
 6) Create a SQLite database called log.db in the atmospi directory.
 
+    ```
     sqlite3 log.db
     CREATE TABLE Devices(DeviceID INTEGER PRIMARY KEY, Type TEXT, SerialID TEXT, Label TEXT);
     CREATE TABLE Temperature(DeviceID INT, Timestamp INT, C REAL, F REAL);
@@ -60,11 +71,14 @@ Manual Setup
     CREATE INDEX humidity_dt ON Humidity(DeviceID, Timestamp);
     CREATE INDEX flag_dt ON Flag(DeviceID, Timestamp);
     .exit
+    ```
 
 7) Add the Apache virtual host (provided) and restart Apache.
 
+    ```
     sudo ln -s /home/pi/atmospi/atmospi.vhost /etc/apache2/sites-enabled/000-atmospi.conf
     sudo apache2ctl restart
+    ```
 
 DS18B20 Temperature Sensor Setup
 --------------------------------
@@ -77,8 +91,10 @@ If you use the Puppet script to install, a cron job is already set up to take me
 
 1) Set up measure-ds18b20.py to run on a cron job as root.
 
+    ```
     sudo crontab -e
     */5 * * * * /home/pi/atmospi/Atmospi/measure-ds18b20.py >/dev/null 2>&1
+    ```
 
 OPTIONAL) Sensors will be automatically labeled with their serial ID. If you would like to change this label, run the following query for each sensor:
 
@@ -95,21 +111,29 @@ Also note that you can connect as many DHT sensors to your Pi as you'd like, but
 
 1) Install python-dev.
 
+    ```
     sudo apt-get install python-dev
+    ```
 
 2) Build the dhtreader.so library using the setup.py and dhtreader.c files in Adafruit's DHT Python Driver example: https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code/tree/master/Adafruit_DHT_Driver_Python
 
+    ```
     cd ~
     git clone https://github.com/adafruit/Adafruit_Python_DHT.git
     cd Adafruit_Python_DHT
     sudo python setup.py install
+    ```
 
 3) Insert rows into the Devices database to describe each of your sensors. For example:
 
+    ```
     INSERT INTO Devices (DeviceID, Type, SerialID, Label) VALUES (NULL, 'dht22', '22', 'Upstairs DHT22');
+    ```
 
 4) Set up measure-dht.py to run on a cron job as root.
 
+    ```
     sudo crontab -e
     */5 * * * * /home/pi/atmospi/Atmospi/measure-dht.py >/dev/null 2>&1
+    ```
 
