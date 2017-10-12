@@ -115,7 +115,7 @@ Also note that you can connect as many DHT sensors to your Pi as you'd like, but
     sudo apt-get install python-dev
     ```
 
-2) Build the dhtreader.so library using the setup.py and dhtreader.c files in Adafruit's DHT Python Driver example: https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code/tree/master/Adafruit_DHT_Driver_Python
+2) Install the Adafruit_Python_DHT library for reading temperature and humidity from the sensor.
 
     ```
     cd ~
