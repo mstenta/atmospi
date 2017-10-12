@@ -1,3 +1,11 @@
+v0.3.0
+
+Changes:
+
+* Use new Adafruit DHT library: https://github.com/mstenta/atmospi/commit/e4dacdae052a00e85d41fb686b80ce8fafc1dc20
+* The Puppet script no longer sets the timezone/locale: https://github.com/mstenta/atmospi/commit/f687d47285f0fab1ee3a141a5425720811603769
+* Improved README.md documentation.
+
 v0.2.4
 ------
 
