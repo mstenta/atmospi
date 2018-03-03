@@ -1,14 +1,21 @@
 atmospi
 =======
 
-Atmospheric monitoring app for logging and graphing temperatures and humidities over time using a Raspberry Pi and DS18B20, DHT11, DHT22, and AM2302 sensor(s).
+Atmospheric monitoring app for logging and graphing temperatures and humidities
+over time using a Raspberry Pi and DS18B20, DHT11, DHT22, and AM2302 sensor(s).
 
 This project has two main pieces:
 
-1. some simple Python scripts that run on cron to gather data from attached sensors, and
-2. a [Flask](http://flask.pocoo.org) web application for viewing the data in graph form via a web browser.
+1. some simple Python scripts that run on cron to gather data from attached
+   sensors, and
+2. a [Flask](http://flask.pocoo.org) web application for viewing the data in
+   graph form via a web browser.
 
-A Puppet script is provided for automating the setup process. All you need to do is hook up your sensors, install Raspbian, and run the commands below. Alternatively, there are manual setup instructions further below. (Note: currently only DS18B20 sensors are set up by the Puppet script. DHTxx sensors are not.)
+A Puppet script is provided for automating the setup process. All you need to
+do is hook up your sensors, install Raspbian, and run the commands below.
+Alternatively, there are manual setup instructions further below. (Note:
+currently only DS18B20 sensors are set up by the Puppet script. DHTxx sensors
+are not.)
 
 Currently this documentation assumes you are running Raspian on a Raspberry Pi.
 
@@ -22,7 +29,8 @@ Automatic Setup (with Puppet)
     sudo apt-get install puppet
     ./atmospi/puppet/puppet-apply.sh
 
-You also need to follow step 6 (Create a SQLite database called log.db in the atmospi directory) in Manual Setup below, to create your log.db file.
+You also need to follow step 6 (Create a SQLite database called log.db in the
+atmospi directory) in Manual Setup below, to create your log.db file.
 
 Manual Setup
 ------------
@@ -83,11 +91,14 @@ Manual Setup
 DS18B20 Temperature Sensor Setup
 --------------------------------
 
-Refer to Adafruit's tutorial for connecting the DS18B20 sensors: http://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/hardware
+Refer to Adafruit's tutorial for connecting the DS18B20 sensors:
+http://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/hardware
 
-Note that you can connect as many DS18B20 sensors to your Pi as you'd like. Atmospi will automatically detect them and log their measurements.
+Note that you can connect as many DS18B20 sensors to your Pi as you'd like.
+Atmospi will automatically detect them and log their measurements.
 
-If you use the Puppet script to install, a cron job is already set up to take measurements. If you are setting up manually, do the following:
+If you use the Puppet script to install, a cron job is already set up to take
+measurements. If you are setting up manually, do the following:
 
 1) Set up measure-ds18b20.py to run on a cron job as root.
 
@@ -96,18 +107,26 @@ If you use the Puppet script to install, a cron job is already set up to take me
     */5 * * * * /home/pi/atmospi/Atmospi/measure-ds18b20.py >/dev/null 2>&1
     ```
 
-OPTIONAL) Sensors will be automatically labeled with their serial ID. If you would like to change this label, run the following query for each sensor:
+OPTIONAL) Sensors will be automatically labeled with their serial ID. If you
+would like to change this label, run the following query for each sensor:
 
     UPDATE Devices SET Label = "New label" WHERE Type = 'ds18b20' AND SerialID = '28-000000000001';
 
 DHT11 / DHT22 / AM2302 Temperature and Humidity Sensor Setup
 ------------------------------------------------------------
 
-Refer to Adafruit's tutorial for connecting the sensors: http://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/wiring
+Refer to Adafruit's tutorial for connecting the sensors:
+http://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/wiring
 
-While Raspbian comes with libraries for reading temperature from DS18B20 sensors, reading from a DHTxx humidity and temperature sensor is a little more involved. The Puppet script (automatic install) DOES NOT set up automated DHT reading, so you need to do that manually, by following the instructions below.
+While Raspbian comes with libraries for reading temperature from DS18B20
+sensors, reading from a DHTxx humidity and temperature sensor is a little more
+involved. The Puppet script (automatic install) DOES NOT set up automated DHT
+reading, so you need to do that manually, by following the instructions below.
 
-Also note that you can connect as many DHT sensors to your Pi as you'd like, but each requires its own data pin. Unlike the DS18B20 sensors, Atmospi cannot automatically detect DHT sensors, so you need to specify which ones are connected in your config.py file (see below).
+Also note that you can connect as many DHT sensors to your Pi as you'd like,
+but each requires its own data pin. Unlike the DS18B20 sensors, Atmospi cannot
+automatically detect DHT sensors, so you need to specify which ones are
+connected in your config.py file (see below).
 
 1) Install python-dev.
 
@@ -115,7 +134,8 @@ Also note that you can connect as many DHT sensors to your Pi as you'd like, but
     sudo apt-get install python-dev
     ```
 
-2) Install the Adafruit_Python_DHT library for reading temperature and humidity from the sensor.
+2) Install the Adafruit_Python_DHT library for reading temperature and humidity
+   from the sensor.
 
     ```
     cd ~
@@ -124,7 +144,8 @@ Also note that you can connect as many DHT sensors to your Pi as you'd like, but
     sudo python setup.py install
     ```
 
-3) Insert rows into the Devices database to describe each of your sensors. For example:
+3) Insert rows into the Devices database to describe each of your sensors. For
+   example:
 
     ```
     INSERT INTO Devices (DeviceID, Type, SerialID, Label) VALUES (NULL, 'dht22', '22', 'Upstairs DHT22');
