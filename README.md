@@ -19,8 +19,8 @@ Sensors
 
 Sensor wiring instructions can be found on Adafruit's website.
 
-* DS18B20: http://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/hardware
-* DHT11 / DHT22 / AM2302: http://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/wiring
+* DS18B20: https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/hardware
+* DHT11 / DHT22 / AM2302: https://learn.adafruit.com/dht/connecting-to-a-dhtxx-sensor
 
 You can connect as many DS18B20 sensors to your Pi as you'd like. Atmospi will
 automatically detect them and log their measurements.
