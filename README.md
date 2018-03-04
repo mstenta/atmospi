@@ -40,16 +40,16 @@ Atmospi Setup
 
 2) Install Git and clone this repository into /home/pi/atmospi.
 
-   ```
-   sudo apt-get install git
-   git clone https://github.com/mstenta/atmospi.git
-   ```
+    ```
+    sudo apt-get install git
+    git clone https://github.com/mstenta/atmospi.git
+    ```
 
 3) Run the `setup.sh` script.
 
-   ```
-   ~/atmospi/setup.sh
-   ```
+    ```
+    ~/atmospi/setup.sh
+    ```
 
 If you prefer, you may also run the commands in `setup.sh` manually, to
 understand exactly what is being done.
