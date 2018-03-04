@@ -23,7 +23,8 @@ Sensor wiring instructions can be found on Adafruit's website.
 * DHT11 / DHT22 / AM2302: https://learn.adafruit.com/dht/connecting-to-a-dhtxx-sensor
 
 You can connect as many DS18B20 sensors to your Pi as you'd like. Atmospi will
-automatically detect them and log their measurements.
+automatically detect them and log their measurements. Make sure that 1-Wire
+GPIO is enabled (this can be enabled via `raspi-config`).
 
 DHT11 / DHT22 / AM2302 sensors each require a separate GPIO data pin, so you
 need to tell Atmospi which pin(s) to read from. See instructions below.
