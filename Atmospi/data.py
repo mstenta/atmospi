@@ -16,12 +16,16 @@ def query(device_id, device_type, range_min=0, range_max=0):
     # Start with an empty result set.
     results = []
 
+    # Start an empty tuple for query arguments.
+    args = ()
+
     # Determine the table name and fields based on the device type.
     if device_type == 'temperature':
         table = 'Temperature'
         fields = 'Timestamp, C'
         if settings['t_unit'] == 'F':
-            fields = 'Timestamp, (C * 9.0 / 5.0 + 32.0) as F'
+            fields = 'Timestamp, round((C * 9.0 / 5.0 + 32.0), ?) as F'
+            args += (settings['precision'],)
     elif device_type == 'humidity':
         table = 'Humidity'
         fields = 'Timestamp, H'
@@ -33,7 +37,7 @@ def query(device_id, device_type, range_min=0, range_max=0):
 
     # Build the query and arguments...
     query = 'SELECT ' + fields + ' FROM ' + table + ' WHERE DeviceID = ?'
-    args = (device_id,)
+    args += (device_id,)
 
     # If min and max values are provided...
     if range_min and range_max:
