@@ -9,6 +9,7 @@ try:
 except ImportError:
     from default_settings import settings
 
+
 # Database select query helper.
 def select(query, args=()):
 

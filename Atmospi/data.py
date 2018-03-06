@@ -9,6 +9,7 @@ try:
 except ImportError:
     from default_settings import settings
 
+
 # Data query helper function.
 def query(device_id, device_type, range_min=0, range_max=0):
 
@@ -33,7 +34,7 @@ def query(device_id, device_type, range_min=0, range_max=0):
     args = (device_id,)
 
     # If min and max values are provided...
-    if (range_min and range_max):
+    if range_min and range_max:
         query += ' AND Timestamp BETWEEN ? AND ?'
         args += (range_min, range_max)
 

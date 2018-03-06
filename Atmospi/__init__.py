@@ -18,6 +18,7 @@ except ImportError:
 # Create a new Flask app.
 app = Flask(__name__)
 
+
 # Define the index router item.
 @app.route('/')
 def index():
@@ -25,12 +26,14 @@ def index():
     # Return the rendered index.
     return render_template('index.html')
 
+
 # Define the settings router item.
 @app.route('/settings')
 def settings_json():
 
     # Return the Atmospi settings as JSON.
-    return json.dumps(settings);
+    return json.dumps(settings)
+
 
 # Define the temperature devices router item.
 @app.route('/data/devices/temperature')
@@ -47,6 +50,7 @@ def devices_temperature():
     # Return as a string.
     return json.dumps(devices)
 
+
 # Define the humidity devices router item.
 @app.route('/data/devices/humidity')
 def devices_humidity():
@@ -62,6 +66,7 @@ def devices_humidity():
     # Return as a string.
     return json.dumps(devices)
 
+
 # Define the device temperature data router item.
 @app.route('/data/device/<device_id>/<device_type>')
 def device_data(device_id, device_type):
@@ -72,7 +77,7 @@ def device_data(device_id, device_type):
 
     # If min and max values are set in the GET parameters, convert them to
     # milliseconds.
-    if ('range_min' in request.args and 'range_max' in request.args):
+    if 'range_min' in request.args and 'range_max' in request.args:
 
         # Convert milliseconds to seconds.
         range_min = int(request.args['range_min']) / 1000
@@ -81,6 +86,7 @@ def device_data(device_id, device_type):
     # Query the data and return it as JSON.
     results = data.query(device_id, device_type, range_min, range_max)
     return json.dumps(results)
+
 
 # Define the latest temperature data router item.
 @app.route('/data/latest/temperature')
@@ -108,6 +114,7 @@ def latest_temperature():
 
     # Return as a string.
     return json.dumps(data)
+
 
 # Define the latest humidity data router item.
 @app.route('/data/latest/humidity')
