@@ -59,6 +59,10 @@ def query(device_id, device_type, range_min=0, range_max=0, order_by='ASC', limi
     # Execute the select query.
     rows = db.select(query, args)
 
+    # If the query failed, return.
+    if not rows:
+        return results
+
     # Build a series of timestamps and data.
     for row in rows:
 
