@@ -33,7 +33,9 @@ def select(query, args=()):
     except lite.Error, e:
         if con:
             con.rollback()
-        return 'Error selecting from the database file. ' + e
+        print('Error querying the database.')
+        print(e)
+        return False
 
     # At the end, close the database connection.
     finally:

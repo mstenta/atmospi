@@ -62,7 +62,8 @@ try:
 except lite.Error, e:
     if con:
         con.rollback()
-    print "Error %s:" % e.args[0]
+    print('Error querying the database.')
+    print(e)
     sys.exit(1)
 
 finally:
