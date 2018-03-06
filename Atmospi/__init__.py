@@ -93,7 +93,7 @@ def device_data(device_id, device_type):
 def latest_temperature():
 
     # Build a dictionary of data.
-    data = {}
+    latest_data = {}
 
     # Select all temperature devices.
     devices = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('ds18b20', 'dht22', 'dht11', 'am2302')")
@@ -102,21 +102,17 @@ def latest_temperature():
     for device in devices:
 
         # Get the latest temperature.
-        args = (device[0],)
-        fields = 'Timestamp, C'
-        if settings['t_unit'] == 'F':
-            fields = 'Timestamp, (C * 9.0 / 5.0 + 32.0) as F'
-        rows = db.select("SELECT " + fields + " FROM Temperature WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args)
+        rows = data.query(device[0], 'temperature', 0, 0, 'DESC', 1)
 
         # Fill in the data.
         for row in rows:
             timestamp = int(str(row[0]) + '000')
             label = device[1]
             temperature = row[1]
-            data[label] = [timestamp, temperature]
+            latest_data[label] = [timestamp, temperature]
 
     # Return as a string.
-    return json.dumps(data)
+    return json.dumps(latest_data)
 
 
 # Define the latest humidity data router item.
@@ -124,7 +120,7 @@ def latest_temperature():
 def latest_humidity():
 
     # Build a dictionary of data.
-    data = {}
+    latest_data = {}
 
     # Select all humidity devices.
     devices = db.select("SELECT DeviceID, Label FROM Devices WHERE Type IN ('dht22', 'dht11', 'am2302')")
@@ -133,18 +129,17 @@ def latest_humidity():
     for device in devices:
 
         # Get the latest humidity.
-        args = (device[0],)
-        rows = db.select("SELECT Timestamp, H FROM Humidity WHERE DeviceID = ? ORDER BY Timestamp DESC LIMIT 1", args)
+        rows = data.query(device[0], 'humidity', 0, 0, 'DESC', 1)
 
         # Fill in the data.
         for row in rows:
             timestamp = int(str(row[0]) + '000')
             label = device[1]
             humidity = row[1]
-            data[label] = [timestamp, humidity]
+            latest_data[label] = [timestamp, humidity]
 
     # Return as a string.
-    return json.dumps(data)
+    return json.dumps(latest_data)
 
 # Run it!
 if __name__ == '__main__':

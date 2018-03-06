@@ -11,7 +11,7 @@ except ImportError:
 
 
 # Data query helper function.
-def query(device_id, device_type, range_min=0, range_max=0):
+def query(device_id, device_type, range_min=0, range_max=0, order_by='ASC', limit=0):
 
     # Start with an empty result set.
     results = []
@@ -44,8 +44,17 @@ def query(device_id, device_type, range_min=0, range_max=0):
         query += ' AND Timestamp BETWEEN ? AND ?'
         args += (range_min, range_max)
 
-    # Always order by timestamp ascending.
-    query += ' ORDER BY Timestamp ASC'
+    # Order by the timestamp ascending/descending (default to ascending).
+    query += ' ORDER BY Timestamp '
+    if order_by == 'ASC' or order_by == 'DESC':
+        query += order_by
+    else:
+        query += 'ASC'
+
+    # Limit the query results, if desired.
+    if limit:
+        query += ' LIMIT ?'
+        args += (limit,)
 
     # Execute the select query.
     rows = db.select(query, args)
