@@ -23,18 +23,14 @@ sensor_types = {
 def read_sensor(type, pin):
 
     # Read the temperature and humidity from the device.
-    h, tc = Adafruit_DHT.read_retry(sensor_types[type], int(pin))
-
-    # Convert celsius to fahrenheit.
-    tf = tc * 9.0 / 5.0 + 32.0
+    h, t = Adafruit_DHT.read_retry(sensor_types[type], int(pin))
 
     # Round all measurements to the precision defined in settings.
-    tc = round(tc, settings['precision'])
-    tf = round(tf, settings['precision'])
+    t = round(t, settings['precision'])
     h = round(h, settings['precision'])
 
     # Format the reading data.
-    reading = {'H': h, 'C': tc, 'F': tf}
+    reading = {'H': h, 'C': t}
 
     # Return the reading.
     return reading
@@ -58,7 +54,7 @@ try:
         db.execute("INSERT INTO Humidity (DeviceID, Timestamp, H) VALUES(" + str(device[0]) + ", " + str(timestamp) + ", " + str(data['H']) + ")")
 
         # Record the temperature to the database.
-        db.execute("INSERT INTO Temperature (DeviceID, Timestamp, C, F) VALUES(" + str(device[0]) + ", " + str(timestamp) + ", " + str(data['C']) + ", " + str(data['F']) + ")")
+        db.execute("INSERT INTO Temperature (DeviceID, Timestamp, C) VALUES(" + str(device[0]) + ", " + str(timestamp) + ", " + str(data['C']) + ")")
 
     # Commit the changes to the database.
     con.commit()

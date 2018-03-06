@@ -41,12 +41,10 @@ def read_temps():
         equals_pos = lines[1].find('t=')
         if equals_pos != -1:
             temp_string = lines[1][equals_pos+2:]
-            temp_c = float(temp_string) / 1000.0
-            temp_f = temp_c * 9.0 / 5.0 + 32.0
+            temp = float(temp_string) / 1000.0
 
             # Round all measurements to the precision defined in settings.
-            temp_c = round(temp_c, settings['precision'])
-            temp_f = round(temp_f, settings['precision'])
+            temp = round(temp, settings['precision'])
 
             # Get the unique name of the device.
             device = file
@@ -54,7 +52,7 @@ def read_temps():
             device = re.sub('/w1_slave', '', device)
 
             # Add the measurement to the temps array.
-            temps[device] = {'C': temp_c, 'F': temp_f}
+            temps[device] = {'C': temp}
     return temps
 
 try:
@@ -84,7 +82,7 @@ try:
             id = result[0]
 
         # Record the temperatures to the database.
-        db.execute("INSERT INTO Temperature (DeviceID, Timestamp, C, F) VALUES(" + str(id) + ", " + str(timestamp) + ", " + str(data['C']) + ", " + str(data['F']) + ")")
+        db.execute("INSERT INTO Temperature (DeviceID, Timestamp, C, F) VALUES(" + str(id) + ", " + str(timestamp) + ", " + str(data['C']) + ")")
 
     # Commit the changes to the database.
     con.commit()

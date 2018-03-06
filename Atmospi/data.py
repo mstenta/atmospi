@@ -19,7 +19,9 @@ def query(device_id, device_type, range_min=0, range_max=0):
     # Determine the table name and fields based on the device type.
     if device_type == 'temperature':
         table = 'Temperature'
-        fields = 'Timestamp, ' + settings['t_unit']
+        fields = 'Timestamp, C'
+        if settings['t_unit'] == 'F':
+            fields = 'Timestamp, (C * 9.0 / 5.0 + 32.0) as F'
     elif device_type == 'humidity':
         table = 'Humidity'
         fields = 'Timestamp, H'
