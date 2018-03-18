@@ -2,7 +2,7 @@
     ServerName atmospi
     ServerAlias atmospi1 atmospi2 atmospi3 atmospi4 atmospi5 atmospi6 atmospi7 atmospi8 atmospi9 atmospi10
 
-    WSGIDaemonProcess atmospi user=pi group=pi threads=5
+    WSGIDaemonProcess atmospi threads=5
     WSGIScriptAlias / /home/pi/atmospi/atmospi.wsgi
 
     <Directory /home/pi/atmospi>

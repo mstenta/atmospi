@@ -1,6 +1,127 @@
 $(function() {
 
   /**
+   * Build the graph.
+   */
+  function buildGraph(settings) {
+
+    // Start with empty data.
+    var data = []
+
+    // Define the graph layout.
+    var layout = {
+      title: 'Measurements by device',
+      xaxis: {
+        autorange: true,
+        rangeselector: {buttons: [
+          {
+            count: 1,
+            label: '1d',
+            step: 'day',
+            stepmode: 'backward'
+          },
+          {
+            count: 7,
+            label: '1w',
+            step: 'day',
+            stepmode: 'backward'
+          },
+          {
+            count: 1,
+            label: '1m',
+            step: 'month',
+            stepmode: 'backward'
+          },
+          {
+            count: 6,
+            label: '6m',
+            step: 'month',
+            stepmode: 'backward'
+          },
+          {step: 'all'}
+        ]},
+        rangeslider: {},
+        type: 'date'
+      },
+      yaxis: {
+        title: 'Temperature ' + settings['t_unit'],
+        autorange: true,
+        type: 'linear'
+      },
+      yaxis2: {
+        title: 'Humidity %',
+        overlaying: 'y',
+        side: 'right'
+      },
+    };
+
+
+    // Add a filled area below freezing temperature.
+    //data.push({
+    //  title: 'Freezing',
+    //  x: [0, Date.now()],
+    //  y: [32, 32],
+    //  fill: 'tozeroy',
+    //  opacity: 0.5,
+    //  type: 'scatter'
+    //});
+
+    // Plot the graph.
+    Plotly.newPlot('graph-test', data, layout);
+
+    // Define a simple function for unpacking data from Atmospi JSON.
+    function unpack(rows, key) {
+      return rows.map(function(row) {
+        return row[key];
+      });
+    }
+
+    // Define the measures we will be plotting.
+    var measures = [
+      'temperature',
+      'humidity',
+    ];
+
+    // Iterate over the measures.
+    $.each(measures, function(index, measure) {
+
+      // Load a list of devices for this measure.
+      $.getJSON('data/devices/' + measure, function(devices) {
+
+	    // Iterate through the devices...
+        $.each(devices, function(device, label) {
+
+          // Load the device temperature data.
+          Plotly.d3.json('data/device/' + device + '/' + measure, function(err, rows) {
+
+            // Build a new trace.
+            var trace = {
+              type: "scatter",
+              mode: "lines",
+              name: label + ' (' + measure + ')',
+              x: unpack(rows, 0),
+              y: unpack(rows, 1),
+            }
+
+            // If this is a humidity measure...
+            if (measure == 'humidity') {
+
+              // Use a dotted line.
+              trace.line = {dash: 'dot'};
+
+              // Plot it on the second Y axis.
+              trace.yaxis = 'y2';
+            }
+
+            // Add the trace to the plot.
+            Plotly.addTraces('graph-test', trace);
+          });
+        });
+      });
+    });
+  }
+
+  /**
    * Load latest measurements.
    */
   function loadLatestMeasurements(settings) {
@@ -241,5 +362,8 @@ $(function() {
 
     // Set up the graph.
     initialSetup(settings);
+
+    // Build the graph.
+    buildGraph(settings);
   });
 });

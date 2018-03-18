@@ -11,7 +11,7 @@ except ImportError:
 
 
 # Database select query helper.
-def select(query, args=()):
+def query(sql, args=()):
 
     # Try connecting and executing the query.
     try:
@@ -21,10 +21,13 @@ def select(query, args=()):
         db = con.cursor()
 
         # Execute the select.
-        db.execute(query, args)
+        db.execute(sql, args)
 
         # Fetch all the resulting rows.
         rows = db.fetchall()
+
+        # Commit the changes to the db.
+        con.commit()
 
         # Return the rows.
         return rows
@@ -41,3 +44,4 @@ def select(query, args=()):
     finally:
         if con:
             con.close()
+

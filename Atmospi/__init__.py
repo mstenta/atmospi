@@ -20,11 +20,15 @@ app = Flask(__name__)
 
 
 # Define the index router item.
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
 
-    # Return the rendered index.
-    return render_template('index.html')
+    if request.method == 'POST':
+        db.query('INSERT INTO Messages (message) VALUES ("hello world")')
+        rows = db.query("SELECT * FROM Messages")
+        return json.dumps(rows)
+    else:
+        return render_template('index.html')
 
 
 # Define the settings router item.

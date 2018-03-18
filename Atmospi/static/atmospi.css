@@ -19,7 +19,8 @@ body {
   color: #999;
   font-size: smaller;
 }
-#graph {
+#graph,
+#graph-test {
   margin: auto;
   height: 95%;
   width: 95%;
