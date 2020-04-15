@@ -24,6 +24,7 @@ sudo apt-get install -y sqlite3
 sqlite3 $DIR/log.db "CREATE TABLE Devices(DeviceID INTEGER PRIMARY KEY, Type TEXT, SerialID TEXT, Label TEXT);"
 sqlite3 $DIR/log.db "CREATE TABLE Temperature(DeviceID INT, Timestamp INT, C REAL, F REAL);"
 sqlite3 $DIR/log.db "CREATE TABLE Humidity(DeviceID INT, Timestamp INT, H REAL);";
+sqlite3 $DIR/log.db "CREATE TABLE Pin(Pin INT, Timestamp INT, Value INT);"
 sqlite3 $DIR/log.db "CREATE TABLE Flag(DeviceID INT, Timestamp INT, Value TEXT);";
 sqlite3 $DIR/log.db "CREATE INDEX temperature_dt ON Temperature(DeviceID, Timestamp);";
 sqlite3 $DIR/log.db "CREATE INDEX humidity_dt ON Humidity(DeviceID, Timestamp);";
